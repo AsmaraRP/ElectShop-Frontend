@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* .container__shop {
+  white-space: nowrap;
+} */
+
+.information__card {
+  margin-right: 30px;
+}
+
+.card {
+  margin: 20px 20px;
+  margin-left: 20px;
+}
+
+.dashboard__card {
+  margin: 20px 20px;
+  padding: 30px 0px;
+}
+
+.store__card {
+  margin-right: 10px;
+}
+
+.store__card p {
+  margin-top: 20px;
+}
+
+.button__icon .btn {
+  margin-top: 40px;
+
+  font-size: 20px;
+}
+
+.shopIcon {
+  background-color: gray;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+small {
+  color: gray;
+}
+
+h5 {
+  color: blue;
+}
+
+@media (max-width: 720px) {
+  .dashboard__card {
+    margin: 20px 0px;
+  }
+
+  .store__data {
+    margin-right: 30px;
+  }
+
+  h4 {
+    text-align: center;
+  }
+
+  .store__data .btn {
+    padding: 10px 30px;
+  }
+}
