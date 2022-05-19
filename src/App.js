@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Manage from "./pages/Manage";
 import Checking from "./pages/Cheking";
+import ViewAll from "./pages/Viewall";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="manage" element={<Manage />} />
         <Route path="cheking" element={<Checking />} />
+        <Route path="viewall" element={<ViewAll />} />
       </Routes>
     </BrowserRouter>
   );
