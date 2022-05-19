@@ -46,7 +46,7 @@ small {
   color: gray;
 }
 
-h5 {
+.dashboard__card h5 {
   color: blue;
 }
 
