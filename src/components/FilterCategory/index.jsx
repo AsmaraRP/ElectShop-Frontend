@@ -1,14 +1,15 @@
 import React, { useState } from "react";
+import "./index.css";
 
 function FilterCategory() {
   const categories = ["Headphone", "Air Conditioner", "Television", "Router"];
   const [selectedCategory, setCategory] = useState("Headphone");
 
   return (
-    <div>
+    <div className="filter-category-wrapper px-2 py-4">
       {categories.map((category) => (
         <button
-          className={`btn py-2 px-4 fw-semibold me-3 ${
+          className={`btn py-2 px-4 fw-semibold me-2 me-md-3 ${
             category === selectedCategory
               ? "btn-primary text-light shadow"
               : "text-lightgray"
