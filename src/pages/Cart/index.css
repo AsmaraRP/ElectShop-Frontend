@@ -1,0 +1,206 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@100&family=Mulish:wght@200;600;700&family=Nunito:wght@300&display=swap");
+* {
+  font-family: "Nunito", sans-serif;
+}
+.pagePreview {
+  padding: 0 50px;
+}
+.cart__searchSortBar {
+  display: flex;
+}
+.cart__search {
+  flex: 5;
+}
+.cart__searchbar {
+  width: 80%;
+  height: 100px;
+  border-radius: 10px 0 0 10px;
+  border: none;
+  box-shadow: 20px 20px 20px gainsboro;
+  padding: 0 50px;
+}
+.cart__searchButton {
+  width: 20%;
+  height: 100px;
+  background-color: #0300ad;
+  border: none;
+  border-radius: 0px 10px 10px 0;
+  box-shadow: 20px 20px 20px gainsboro;
+}
+.cart__profileButton {
+  flex: 1;
+  width: 8%;
+  height: 100px;
+  margin-left: 40px;
+  border-radius: 10px;
+  border: none;
+}
+.cart__cartButton {
+  flex: 1;
+  width: 8%;
+  height: 100px;
+  margin-left: 40px;
+  border-radius: 10px;
+  border: none;
+}
+.cart__header {
+  font-weight: bold;
+  margin-top: 50px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+  margin-bottom: 50px;
+}
+.cart__flexBox {
+  display: flex;
+}
+.cart__flexBox--1 {
+  flex: 2;
+}
+.cart__boxSelectAll {
+  width: 50px;
+  height: 50px;
+}
+.cart__selectAll {
+  font-weight: bold;
+  margin-left: 20px;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
+}
+.cart__product {
+  margin-top: 100px;
+  display: flex;
+}
+.cart__productCard {
+  flex: 2;
+}
+.cart__product--totalProduct1 {
+  border: solid gainsboro 1px;
+  box-shadow: 20px 20px 20px gainsboro;
+  padding: 20px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  display: none;
+}
+.cart__product--totalPrice1 {
+  font-weight: bold;
+  color: #0300ad;
+}
+.cart__productCard--shopCard {
+  overflow-y: auto;
+}
+.cart__productPayment {
+  flex: 1;
+}
+.cart__productPaymentBox {
+  border: solid gainsboro 1px;
+  margin-left: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 20px 20px 20px gainsboro;
+  width: 90%;
+}
+.cart__ProductPaymentBox--price {
+  display: flex;
+}
+.cart__ProductPaymentBox--item {
+  flex: 1;
+  font-size: 20px;
+  font-size: 15px;
+  font-weight: bold;
+}
+.cart__ProductPaymentBox--nominal {
+  flex: 1;
+  font-size: 20px;
+  font-size: 15px;
+  text-align: right;
+}
+.cart__productPaymentBox--checkout {
+  margin-top: 40px;
+  justify-content: center;
+  text-align: center;
+  border: none;
+  color: white;
+  background-color: #0300ad;
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+@media (max-width: 575.98px) {
+  .pagePreview {
+    padding: 0 0px;
+  }
+  .cart__searchSortBar {
+    display: flex;
+  }
+  .cart__search {
+    flex: 5;
+  }
+  .cart__searchbar {
+    width: 80%;
+    height: 50px;
+    border-radius: 10px 0 0 10px;
+    border: none;
+    box-shadow: 20px 20px 20px gainsboro;
+    padding: 0 50px;
+  }
+  .cart__searchButton {
+    width: 20%;
+    height: 50px;
+    background-color: #0300ad;
+    border: none;
+    border-radius: 0px 10px 10px 0;
+    box-shadow: 20px 20px 20px gainsboro;
+  }
+  .cart__searchButton--image {
+    width: 80%;
+  }
+  .cart__profileButton {
+    flex: 1;
+    width: 8%;
+    height: 50px;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+  }
+  .cart__cartButton {
+    flex: 1;
+    width: 8%;
+    height: 50px;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+  }
+  .cart__header {
+    font-weight: bold;
+    margin-top: 40px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    margin-bottom: 50px;
+  }
+  .cart__selectAll {
+    font-weight: bold;
+    margin-left: 20px;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+  }
+  .cart__boxSelectAll {
+    width: 20px;
+    height: 20px;
+  }
+  .cart__productPayment {
+    display: none;
+  }
+  .cart__product--totalProduct1 {
+    border: solid gainsboro 1px;
+    box-shadow: 20px 20px 20px gainsboro;
+    padding: 20px 20px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: block;
+  }
+  .cart__product--totalPrice1 {
+    font-weight: bold;
+    color: #0300ad;
+  }
+}
