@@ -39,7 +39,7 @@ function Navbar() {
             <li className="nav-item">
               <Link
                 to="/"
-                className="nav-link me-lg-5 me-4"
+                className="nav-link me-lg-5 me-md-4 me-0"
                 aria-current="page"
               >
                 Home
@@ -47,13 +47,13 @@ function Navbar() {
             </li>
             <hr className="my-1" />
             <li className="nav-item">
-              <Link to="/product" className="nav-link me-lg-5 me-4">
+              <Link to="/product" className="nav-link me-lg-5 me-md-4 me-0">
                 Product
               </Link>
             </li>
             <hr className="my-1" />
             <li className="nav-item">
-              <Link to="#" className="nav-link me-lg-5 me-4">
+              <Link to="#" className="nav-link me-lg-5 me-md-4 me-0">
                 Community
               </Link>
             </li>

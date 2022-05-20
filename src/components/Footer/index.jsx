@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
-    <footer className="container-fluid bg-skyblue p-5">
-      <div className="container-lg p-5">
+    <footer className="container-fluid bg-skyblue p-3 p-sm-5">
+      <div className="container-lg p-3 p-sm-5">
         <div className="row">
-          <div className="col-6">
+          <div className="col-12 col-md-5 order-4 order-md-1">
             <img
               src={require("../../assets/images/logo.png")}
               alt="logo"
@@ -29,7 +29,8 @@ function Footer() {
               </Link>
             </div>
           </div>
-          <div className="col-2">
+
+          <div className="col-7 col-md-3 order-1 order-md-2">
             <h5 className="fw-bold mb-4 text-darkgray">How it works</h5>
             <Link
               to=""
@@ -47,7 +48,8 @@ function Footer() {
               Receive Product
             </Link>
           </div>
-          <div className="col-2">
+
+          <div className="col-5 col-md-2 order-2 order-md-3">
             <h5 className="fw-bold mb-4 text-darkgray">Products</h5>
             <Link
               to=""
@@ -71,7 +73,8 @@ function Footer() {
               Television
             </Link>
           </div>
-          <div className="col-2">
+
+          <div className="col-6 col-md-2 order-3 order-md-4 mb-5 mb-md-0">
             <h5 className="fw-bold mb-4 text-darkgray">Help</h5>
             <Link
               to=""
