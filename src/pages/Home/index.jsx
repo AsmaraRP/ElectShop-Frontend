@@ -10,20 +10,20 @@ function Home() {
     <>
       <Navbar />
 
-      <main className="bg-white" style={{ paddingTop: "74px" }}>
+      <main className="bg-white" style={{ paddingTop: "70px" }}>
         <div className="container-fluid bg-lightblue py-5">
           <div className="container-lg py-4 px-3">
             <div className="row">
-              <div className="col-5 col-md-4">
-                <h1 className="fw-extrabold text-darkgray lh-base mb-3">
+              <div className="col-md-5 col-lg-4 order-2 order-md-1">
+                <h1 className="fw-extrabold text-darkgray lh-base mb-3 text-center text-md-start mt-5 mt-md-0">
                   Take Your Time And <span className="text-primary">Shop </span>
                   Anywhere
                 </h1>
-                <p className="text-lightgray fw-semibold mb-4">
+                <p className="text-lightgray fw-semibold mb-4 text-center text-md-start">
                   Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                   amet sint. Velit officia consequat duis enim velit mollit..
                 </p>
-                <div>
+                <div className="text-center text-md-start">
                   <Link to="#" className="btn btn-primary py-2 me-3 shadow">
                     <i class="bi bi-bag me-2"></i>Shop Now
                   </Link>
@@ -32,34 +32,25 @@ function Home() {
                   </Link>
                 </div>
               </div>
-              <div className="col-7 col-md-8 text-center position-relative">
+              <div className="col-md-7 col-lg-8 text-center position-relative order-1 order-md-2">
                 <img
                   src={require("../../assets/images/hero.png")}
                   alt="hero"
-                  height="332px"
+                  className="home__hero-img"
                 />
-                <div
-                  className="card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block"
-                  style={{ top: 0, left: "20%", width: "160px" }}
-                >
+                <div className="home__balloon1 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     Trusted by more than{" "}
                     <span className="text-primary">6000+</span> people.
                   </span>
                 </div>
-                <div
-                  className="card px-3 py-2 text-start border-0 shadow position-absolute"
-                  style={{ top: "20%", right: "10%", width: "160px" }}
-                >
+                <div className="home__balloon2 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     There are <span className="text-primary">6 million</span>{" "}
                     electronic products.
                   </span>
                 </div>
-                <div
-                  className="card px-3 py-2 text-start border-0 shadow position-absolute"
-                  style={{ bottom: "10%", right: "10%", width: "150px" }}
-                >
+                <div className="home__balloon3 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     There are <span className="text-primary">5000+</span>{" "}
                     trusted sellers.
@@ -79,8 +70,8 @@ function Home() {
             <br />
             Order Easily
           </h2>
-          <div className="row gx-5">
-            <div className="col">
+          <div className="row gx-3 gx-lg-5 px-4 px-sm-5 px-md-3">
+            <div className="col-md mb-4 mb-md-0">
               <div
                 className="card text-start p-4"
                 style={{ borderRadius: "20px" }}
@@ -103,7 +94,7 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="col">
+            <div className="col-md mb-4 mb-md-0">
               <div
                 className="card text-start p-4"
                 style={{ borderRadius: "20px" }}
@@ -126,7 +117,7 @@ function Home() {
                 </p>
               </div>
             </div>
-            <div className="col">
+            <div className="col-md">
               <div
                 className="card text-start p-4"
                 style={{ borderRadius: "20px" }}
@@ -161,20 +152,20 @@ function Home() {
             <br />
             By Electshop
           </h2>
-          <div className="d-flex justify-content-between align-items-center pt-3 pb-5">
+          <div className="d-flex no-wrap justify-content-between align-items-center pt-3 pb-5">
             <FilterCategory />
             <div className="position-relative w-25">
               <input
                 type="text"
-                className="form-control py-2"
+                className="form-control py-2 d-none d-md-inline-block"
                 placeholder="Search"
               />
-              <button className="btn me-1 bg-white position-absolute end-0 top-50 translate-middle-y">
-                <i class="bi bi-search"></i>
+              <button className="home__search-button btn py-2 py-md-0 me-1 position-absolute end-0 top-50 translate-middle-y">
+                <i class="bi bi-search text-primary"></i>
               </button>
             </div>
           </div>
-          <div className="row row-cols-3 gx-5 my-5">
+          <div className="row row-cols-2 row-cols-md-3 gy-5 g-md-5 my-5">
             <div className="col">
               <ProductCard />
             </div>
@@ -191,26 +182,24 @@ function Home() {
         </div>
 
         <div className="container-lg py-5 my-5 px-3">
-          <div className="card bg-skyblue border-0 p-5">
+          <div className="card bg-skyblue border-0 p-4 p-sm-5">
             <div className="row">
-              <div className="col-6 postition-relative">
+              <div className="col-md-6 d-none d-md-block postition-relative">
                 <img
                   src={require("../../assets/images/subscribe.png")}
                   alt="illustration"
                   className="position-absolute bottom-0"
-                  width={400}
+                  width={340}
                 />
               </div>
-              <div className="col-6">
+              <div className="col-md-6 text-center text-md-start">
                 <h2 className="fs-1 fw-extrabold text-darkgray lh-base">
-                  Get 30% Off <br />
-                  of Your First
-                  <br /> Purchases
+                  Get 30% Off of Your First Purchases
                 </h2>
                 <p className="text-lightgray mb-4">
-                  Get 30% Off of Your First Purchases{" "}
+                  Enter your Email Below To Receive The Discount Code
                 </p>
-                <div className="position-relative w-75">
+                <div className="position-relative w-100">
                   <input
                     type="email"
                     className="form-control border-primary bg-transparent text-primary py-3"

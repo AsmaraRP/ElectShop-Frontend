@@ -1,0 +1,50 @@
+.home__hero-img {
+  width: 320px;
+}
+.home__search-button {
+  background-color: #f2f4fb;
+}
+
+/* sm */
+@media (width >= 576px) {
+  .home__hero-img {
+    width: 500px;
+  }
+}
+/* md */
+@media (width >= 768px) {
+  .home__hero-img {
+    width: 460px;
+  }
+  .home__balloon1 {
+    top: 0;
+    left: 12%;
+    width: 160px;
+  }
+  .home__balloon2 {
+    top: 30%;
+    right: 2%;
+    width: 160px;
+  }
+  .home__balloon3 {
+    bottom: 10%;
+    right: 10%;
+    width: 150px;
+  }
+  .home__search-button {
+    background-color: white;
+  }
+}
+/* lg */
+@media (width >= 992px) {
+  .home__balloon1 {
+    top: 0;
+    left: 20%;
+    width: 160px;
+  }
+  .home__balloon2 {
+    top: 20%;
+    right: 10%;
+    width: 160px;
+  }
+}
