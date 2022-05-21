@@ -1,12 +1,23 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "../../utils/axios";
+import { logout } from "../../stores/actions/user";
 
 function Navbar() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
+  const refreshToken = localStorage.getItem("refreshToken");
   const dataUser = useSelector((state) => state.user.data);
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    dispatch(logout({ refreshToken }));
+  };
+
+  console.log(process.env.REACT_APP_CLOUDINARY_BASE_LINK + dataUser.image);
 
   return (
     <nav
@@ -76,7 +87,7 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          {!dataUser ? (
+          {Object.keys(dataUser).length === 0 ? (
             <Link
               to="/login"
               className="btn btn-primary py-2 shadow"
@@ -97,7 +108,8 @@ function Navbar() {
                 <img
                   src={
                     pathname === "/"
-                      ? dataUser.image
+                      ? process.env.REACT_APP_CLOUDINARY_BASE_LINK +
+                        dataUser.image
                       : require("../../assets/images/logo.png")
                   }
                   alt={pathname === "/" ? "profile picture" : "logo"}
@@ -119,7 +131,10 @@ function Navbar() {
                   <div>
                     <li>
                       <img
-                        src={dataUser.image}
+                        src={
+                          process.env.REACT_APP_CLOUDINARY_BASE_LINK +
+                          dataUser.image
+                        }
                         alt="profpic"
                         className="px-2"
                         style={{
@@ -134,24 +149,28 @@ function Navbar() {
                   </div>
                 )}
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/cart">
                     Cart
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/history">
                     History
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="#">
+                  <Link className="dropdown-item" to="/profil">
                     Profile
                   </Link>
                 </li>
                 <li>
-                  <Link to="/" className="dropdown-item">
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    onClick={handleLogout}
+                  >
                     Logout
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>
