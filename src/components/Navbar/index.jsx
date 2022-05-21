@@ -1,25 +1,36 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 function Navbar() {
+  const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
   const dataUser = useSelector((state) => state.user.data);
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-lightblue fixed-top text-center shadow-sm px-3 px-lg-0">
+    <nav
+      className={`navbar navbar-expand-md navbar-light ${
+        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-transparent"
+      } fixed-top text-center px-3 px-lg-0`}
+    >
       <div className="container-lg">
-        <Link to="/" className="navbar-brand">
-          <img
-            src={require("../../assets/images/logo.png")}
-            alt="logo"
-            height="44"
-          />
-          <span className="fw-bold text-primary ms-2 d-none d-sm-inline">
-            Electshop
-          </span>
-        </Link>
+        {pathname === "/" ? (
+          <Link to="/" className="navbar-brand">
+            <img
+              src={require("../../assets/images/logo.png")}
+              alt="logo"
+              height="44"
+            />
+            <span className="fw-bold text-primary ms-2 d-none d-sm-inline">
+              Electshop
+            </span>
+          </Link>
+        ) : (
+          <button className="btn bg-lightblue" onClick={() => navigate(-1)}>
+            <i className="bi bi-chevron-left text-primary"></i>
+          </button>
+        )}
         <button
           className="navbar-toggler"
           type="button"
@@ -74,39 +85,75 @@ function Navbar() {
               Sign in
             </Link>
           ) : (
-            <div className="align-items-center">
-              <div className="dropdown ms-5">
-                <button
-                  className="bg-transparent border-0 dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  data-bs-offset="  0,20"
-                >
-                  <img
-                    src={dataUser ? dataUser.imagePath : ""}
-                    alt="profile"
-                    className="rounded-circle"
-                    style={{ width: "44px" }}
-                  />
-                </button>
-                <ul
-                  className="dropdown-menu dropdown-menu-end rounded-3"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/" className="dropdown-item">
-                      Logout
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            <div className="dropstart ms-5">
+              <button
+                className="bg-transparent border-0"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-offset="0,20"
+              >
+                <img
+                  src={
+                    pathname === "/"
+                      ? dataUser.image
+                      : require("../../assets/images/logo.png")
+                  }
+                  alt={pathname === "/" ? "profile picture" : "logo"}
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                  }}
+                />
+              </button>
+              <ul
+                className="dropdown-menu dropdown-menu-end shadow border-0"
+                aria-labelledby="dropdownMenuButton1"
+              >
+                {pathname === "/" ? (
+                  ""
+                ) : (
+                  <div>
+                    <li>
+                      <img
+                        src={dataUser.image}
+                        alt="profpic"
+                        className="px-2"
+                        style={{
+                          width: "100%",
+                          height: "80px",
+                          objectFit: "cover",
+                          borderRadius: "10px",
+                        }}
+                      />
+                    </li>
+                    <hr className="my-2" />
+                  </div>
+                )}
+                <li>
+                  <Link className="dropdown-item" to="#">
+                    Cart
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="#">
+                    History
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="#">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/" className="dropdown-item">
+                    Logout
+                  </Link>
+                </li>
+              </ul>
             </div>
           )}
         </div>
