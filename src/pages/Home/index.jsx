@@ -229,7 +229,10 @@ function Home() {
               </div>
             ))}
           </div>
-          <Link to="#" className="btn btn-primary fw-semibold px-4 py-2 shadow">
+          <Link
+            to="/viewall"
+            className="btn btn-primary fw-semibold px-4 py-2 shadow"
+          >
             View All
           </Link>
         </div>

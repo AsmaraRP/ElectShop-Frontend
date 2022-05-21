@@ -16,10 +16,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="dashboard" element={<Dashboard />} />
-        <Route path="manage" element={<Manage />} />
-        <Route path="cheking" element={<Checking />} />
-        <Route path="viewall" element={<ViewAll />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/manage" element={<Manage />} />
+        <Route path="/cheking" element={<Checking />} />
+        <Route path="/viewall" element={<ViewAll />} />
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

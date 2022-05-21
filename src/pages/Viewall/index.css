@@ -1,17 +1,7 @@
-.navbar__viewall .btn {
-  border: 0px;
-  color: rgb(151, 146, 146);
-}
-
-.navbar__viewall .btn:hover {
-  border: 0px;
-  color: rgb(250, 249, 249);
-}
-
 .viewall_card .viewall__image {
   width: 300px;
   padding: 35px;
-  margin-top: 30px;
+  margin-top: 50px;
   position: absolute;
 }
 

@@ -1,8 +1,57 @@
-import React from "react";
-import image from "./../../assets/imgDashboard/image 22.png";
+import { Link } from "react-router-dom";
 import "./index.css";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getDataProduct } from "../../stores/actions/product";
+import FilterCategory from "../../components/FilterCategory";
 
 export default function ViewAll() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [page] = useState(1);
+  const [limit] = useState(6);
+  const [searchType, setSearchType] = useState("");
+  const [searchName, setSearchName] = useState("Headphone");
+  const [sort] = useState("");
+  const [search, setSearch] = useState("");
+
+  const handleClickToCart = () => {
+    navigate("/cart");
+  };
+
+  const handleClickDetail = (id) => {
+    navigate("/detail", { state: { idProduct: id } });
+  };
+
+  const product = useSelector((state) => state.product);
+  useEffect(() => {
+    handleGetDataProduct();
+  }, []);
+
+  useEffect(() => {
+    handleGetDataProduct();
+  }, [searchType, searchName]);
+
+  const handleGetDataProduct = async () => {
+    await dispatch(getDataProduct(page, limit, searchType, searchName, sort));
+  };
+
+  const handleClickCategory = (category) => {
+    setSearchType("");
+    setSearchName(category);
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+    if (e.key === "Enter") {
+      setSearchType(e.target.value);
+    }
+  };
+  const handleClickSearch = () => {
+    setSearchType(search);
+  };
   return (
     <>
       <div className="container">
@@ -19,8 +68,13 @@ export default function ViewAll() {
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  onKeyPress={handleChangeSearch}
                 />
-                <div type="button" class="btn btn-primary">
+                <div
+                  type="button"
+                  class="btn btn-primary"
+                  onClick={handleClickSearch}
+                >
                   <ion-icon name="search"></ion-icon>
                 </div>
               </div>
@@ -32,10 +86,9 @@ export default function ViewAll() {
           <button
             type="button"
             class="col-md-1 btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#staticBackdrop"
+            onClick={handleClickToCart}
           >
-            <ion-icon name="add"></ion-icon>
+            <i class="bi bi-cart d-block"></i>
           </button>
         </div>
         <br />
@@ -52,214 +105,65 @@ export default function ViewAll() {
             >
               <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                  <button class="btn btn-outline-primary me-2" type="button">
-                    Headphone
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button class="btn btn-outline-primary me-2" type="button">
-                    Air Conditioner
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button class="btn btn-outline-primary me-2" type="button">
-                    Router
-                  </button>
-                </li>
-              </ul>
-            </div>
+            {/* <div class="collapse navbar-collapse" id="navbarSupportedContent"> */}
+            <FilterCategory handleClickCategory={handleClickCategory} />
+            {/* </div> */}
           </div>
         </nav>
         <div className="row viewall__list">
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
+          {product.isLoading ? (
+            <div className="col-12 text-center">
+              <div
+                className="spinner-border text-primary text-center"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            product.data.map((item) => (
+              <div className="col-md-4" key={item.id}>
+                <div className="card viewall_card shadow bg-body rounded">
+                  <div className="card-body">
+                    <div className="row b">
+                      <h6>{item.type}</h6>
+                      <div className="d-grid col-6 mx-auto text-start">
+                        <h4>{item.price}</h4>
+                      </div>
+                      <div className="d-grid col-6 text-end mx-auto">
+                        <p>rate</p>
+                      </div>
+                      <img
+                        src={`${process.env.REACT_APP_CLOUDINARY}/${
+                          item.image.split(",")[0]
+                        }`}
+                        alt=""
+                        className="viewall__image"
+                      />
+                    </div>
+                    <div className="row a">
+                      <div className="d-grid col-9 mx-auto">
+                        <button
+                          className="btn btn-primary viewall__button"
+                          onClick={() => handleClickDetail(item.id)}
+                        >
+                          Detail
+                        </button>
+                      </div>
+                      <div className="d-grid col-3 mx-auto">
+                        <button
+                          className="btn btn-outline-primary viewall__button"
+                          type="button"
+                        >
+                          <i class="bi bi-cart d-block"></i>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4">
-            <div className="card viewall_card shadow bg-body rounded">
-              <div className="card-body">
-                <div className="row b">
-                  <h6>Sennheiser HD-25</h6>
-                  <div className="d-grid col-6 mx-auto text-start">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="d-grid col-6 text-end mx-auto">
-                    <p>rate</p>
-                  </div>
-                  <img src={image} alt="" className="viewall__image" />
-                </div>
-                <div className="row a">
-                  <div className="d-grid col-9 mx-auto">
-                    <button className="btn btn-primary viewall__button">
-                      Detail
-                    </button>
-                  </div>
-                  <div className="d-grid col-3 mx-auto">
-                    <button
-                      className="btn btn-outline-primary viewall__button"
-                      type="button"
-                    >
-                      ty
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            ))
+          )}
         </div>
       </div>
     </>

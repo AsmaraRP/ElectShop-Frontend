@@ -10,6 +10,12 @@ export default function Manage() {
   const dispatch = useDispatch();
   const [modalIsOpen, setIsOpen] = useState(false);
   const product = useSelector((state) => state.product);
+  const [page] = useState(1);
+  const [limit] = useState(6);
+  const [searchType, setSearchType] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [sort] = useState("");
+  const [search, setSearch] = useState("");
   const [image, setImage] = useState(null);
   const [form, setForm] = useState({
     name: "",
@@ -69,7 +75,9 @@ export default function Manage() {
   const getdataProduct = async () => {
     try {
       // PANGGIL ACTION
-      const resultProduct = await dispatch(getDataProduct());
+      const resultProduct = await dispatch(
+        getDataProduct(page, limit, searchType, searchName, sort)
+      );
       console.log(resultProduct);
     } catch (error) {
       console.log(error.response);
@@ -185,13 +193,9 @@ export default function Manage() {
                       <div className="row bg-white">
                         <div className="col-sm-2">
                           <img
-                            src={
-                              item.image
-                                ? `https://res.cloudinary.com/elecshop/image/upload/v1653006819/${
-                                    item.image.split(",")[0]
-                                  }`
-                                : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
-                            }
+                            src={`${process.env.REACT_APP_CLOUDINARY}/${
+                              item.image.split(",")[0]
+                            }`}
                             alt=""
                             className="imageList"
                           />

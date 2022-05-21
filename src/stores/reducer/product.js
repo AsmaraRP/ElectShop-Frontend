@@ -56,6 +56,29 @@ const product = (state = initialState, action) => {
         msg: action.payload.response.data.msg,
       };
     }
+    case "UPDATE_PRODUCT_PENDING": {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case "UPDATE_PRODUCT_FULFILLED": {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        msg: action.payload.data.msg,
+      };
+    }
+    case "UPDATE_PRODUCT_REJECTED": {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        msg: action.payload.response.data.msg,
+      };
+    }
     default: {
       return state;
     }

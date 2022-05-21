@@ -15,3 +15,17 @@ export const postProduct = (form) => {
     payload: axios.post("product/", form),
   };
 };
+
+export const updateProduct = (id, form) => {
+  return {
+    type: "UPDATE_PRODUCT",
+    payload: axios.patch(`Product/${id}`, form),
+  };
+};
+
+export const deleteProduct = (id) => {
+  return {
+    type: "DELETE_PRODUCT",
+    payload: axios.delete(`Product/${id}`),
+  };
+};
