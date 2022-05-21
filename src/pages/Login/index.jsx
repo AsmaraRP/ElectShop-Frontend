@@ -10,6 +10,7 @@ function Login() {
   const dispatch = useDispatch();
   const msg = useSelector((state) => state.user.msg);
   const isError = useSelector((state) => state.user.isError);
+  const isLoading = useSelector((state) => state.user.isLoading);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -99,7 +100,16 @@ function Login() {
                   type="submit"
                   className="btn btn-primary py-2 px-4 shadow"
                 >
-                  Login
+                  {isLoading ? (
+                    <div
+                      class="spinner-border text-light spinner-border-sm"
+                      role="status"
+                    >
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
               </div>
             </form>
