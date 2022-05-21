@@ -1,0 +1,7 @@
+.filter-category-wrapper {
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.filter-category-wrapper::-webkit-scrollbar {
+  display: none;
+}

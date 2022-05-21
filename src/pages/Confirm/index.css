@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@100&family=Mulish:wght@200;600;700&family=Nunito:wght@300&display=swap");
+* {
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+}
+.pagePreview {
+  padding: 0 50px;
+}
+.transactionStatus__border {
+  border: solid gainsboro 1px;
+  text-align: center;
+  box-shadow: 20px 20px 20px gainsboro;
+  border-radius: 15px;
+  padding: 80px 80px;
+  margin-bottom: 40px;
+}
+.transactionStatus__button {
+  background-color: #0300ad;
+  color: white;
+  border: none;
+  padding: 10px 80px;
+  margin-top: 20px;
+  border-radius: 12px;
+}
+
+@media (max-width: 575.98px) {
+  .pagePreview {
+    padding: 0 0;
+  }
+  .transactionStatus__border {
+    border: solid gainsboro 1px;
+    text-align: center;
+    box-shadow: 20px 20px 20px gainsboro;
+    border-radius: 15px;
+    padding: 80px 50px;
+    margin-bottom: 40px;
+  }
+  .transactionStatus__button {
+    background-color: #0300ad;
+    color: white;
+    border: none;
+    padding: 10px 60px;
+    margin-top: 20px;
+    border-radius: 12px;
+  }
+  .transactionStatus__status {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .transactionStatus__statement {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 15px;
+  }
+}
