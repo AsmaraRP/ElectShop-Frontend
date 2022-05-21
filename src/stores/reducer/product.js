@@ -11,7 +11,7 @@ const product = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
-        isError: false
+        isError: false,
       };
     }
     case "GET_DATA_PRODUCT_FULFILLED": {
@@ -21,7 +21,7 @@ const product = (state = initialState, action) => {
         isError: false,
         data: action.payload.data.data,
         pageInfo: action.payload.data.pagination,
-        msg: action.payload.data.msg
+        msg: action.payload.data.msg,
       };
     }
     case "GET_DATA_PRODUCT_REJECTED": {
@@ -31,7 +31,30 @@ const product = (state = initialState, action) => {
         isError: true,
         data: [],
         pageInfo: {},
-        msg: action.payload.response.data.msg
+        msg: action.payload.response.data.msg,
+      };
+    }
+    case "POST_PRODUCT_PENDING": {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case "POST_PRODUCT_FULFILLED": {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        msg: action.payload.data.msg,
+      };
+    }
+    case "POST_PRODUCT_REJECTED": {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+        msg: action.payload.response.data.msg,
       };
     }
     default: {

@@ -4,12 +4,50 @@ import "./index.css";
 // import image from "./../../assets/imgDashboard/image 22.png";
 import Pagination from "react-paginate";
 import { useSelector, useDispatch } from "react-redux";
-import { getDataProduct } from "../../stores/actions/product";
+import { getDataProduct, postProduct } from "../../stores/actions/product";
 
 export default function Manage() {
   const dispatch = useDispatch();
   const [modalIsOpen, setIsOpen] = useState(false);
   const product = useSelector((state) => state.product);
+  const [image, setImage] = useState(null);
+  const [form, setForm] = useState({
+    name: "",
+    stock: "",
+    type: "",
+    price: "",
+    description: "",
+    image: null,
+  });
+  const [idProduct, setIdProduct] = useState("");
+  const [isUpdate, setIsUpdate] = useState(false);
+
+  const handleChangeForm = (event) => {
+    const { name, value, files } = event.target;
+    if (name === "image") {
+      setForm({ ...form, [name]: files[0] });
+      setImage(URL.createObjectURL(files[0]));
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
+
+  const setUpdate = (data) => {
+    const { id, name, stock, type, price, description, image } = data;
+    setForm({
+      ...form,
+      name,
+      stock,
+      type,
+      price,
+      description,
+      image,
+    });
+    setIdProduct(id);
+    setIsUpdate(true);
+  };
+
+  console.log(form);
 
   function openModal() {
     setIsOpen(true);
@@ -19,6 +57,8 @@ export default function Manage() {
 
   function closeModal() {
     setIsOpen(false);
+    setIsUpdate(false);
+    resetForm();
   }
 
   useEffect(() => {
@@ -34,6 +74,58 @@ export default function Manage() {
     } catch (error) {
       console.log(error.response);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(form);
+    const formData = new FormData();
+    for (const data in form) {
+      formData.append(data, form[data]);
+    }
+    // // formData.append("name", form.name)
+    // // axios.post("...", formData)
+
+    // // untuk mengecek data di formData
+    // for (const data of formData.entries()) {
+    //   console.log(data[0] + ", " + data[1]);
+    //   // name, "Bagus"
+    // }
+
+    await dispatch(postProduct(formData));
+    getdataProduct();
+    setImage(null);
+    resetForm();
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    // delete form["id"];
+    console.log(form);
+    // console.log(idMovie);
+    const formData = new FormData();
+    for (const data in form) {
+      formData.append(data, form[data]);
+    }
+    // formData.append("name", form.name)
+    // axios.patch("...", formData)
+    // dispatch(updateMovie(idMovie, formData));
+    getdataProduct();
+
+    setIsUpdate(false);
+    setImage(null);
+    resetForm();
+  };
+
+  const resetForm = () => {
+    setForm({
+      name: "",
+      stock: "",
+      type: "",
+      price: "",
+      description: "",
+      image: null,
+    });
   };
   return (
     <>
@@ -95,7 +187,7 @@ export default function Manage() {
                           <img
                             src={
                               item.image
-                                ? `https://res.cloudinary.com/djoebcjsc/image/upload/v1650916284/${
+                                ? `https://res.cloudinary.com/elecshop/image/upload/v1653006819/${
                                     item.image.split(",")[0]
                                   }`
                                 : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
@@ -106,7 +198,7 @@ export default function Manage() {
                         </div>
                         <div className="col-sm-3">
                           <h6 className="badge bg-primary text-wrap">
-                            {/* {item.name} */ item.image.split(",")[0]}
+                            {item.name}
                           </h6>
                           <h5>{item.type}</h5>
                           <h6 className="mobilePrice">{item.price}</h6>
@@ -115,11 +207,18 @@ export default function Manage() {
                           <h4>{item.price}</h4>
                         </div>
                         <div className="col-sm-4 align-self-end">
-                          <button type="button" class="btn btn-outline-primary">
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            onClick={() => {
+                              setUpdate(item);
+                              openModal();
+                            }}
+                          >
                             edit
                           </button>
                           <button type="button" class="btn btn-outline-primary">
-                            montly
+                            Delete
                           </button>
                         </div>
                       </div>
@@ -151,7 +250,7 @@ export default function Manage() {
           <div className="container">
             <h1>Add Product</h1>
             <hr />
-            <form>
+            <form onSubmit={isUpdate ? handleUpdate : handleSubmit}>
               <div className="row modalForm">
                 <div className="col-md-6">
                   <div class="mb-3">
@@ -160,14 +259,20 @@ export default function Manage() {
                       type="text"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      name="name"
+                      onChange={(event) => handleChangeForm(event)}
+                      value={form.name}
                     />
                   </div>
                   <div class="mb-3">
-                    <h5>Stok</h5>
+                    <h5>Stock</h5>
                     <input
                       type="text"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      name="stock"
+                      onChange={(event) => handleChangeForm(event)}
+                      value={form.stock}
                     />
                   </div>
                   <div class="mb-3">
@@ -176,6 +281,9 @@ export default function Manage() {
                       type="text"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      name="type"
+                      onChange={(event) => handleChangeForm(event)}
+                      value={form.type}
                     />
                   </div>
                 </div>
@@ -186,6 +294,9 @@ export default function Manage() {
                       type="text"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      name="price"
+                      onChange={(event) => handleChangeForm(event)}
+                      value={form.price}
                     />
                   </div>
                   <div class="mb-3">
@@ -194,6 +305,9 @@ export default function Manage() {
                       type="text"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      name="description"
+                      onChange={(event) => handleChangeForm(event)}
+                      value={form.description}
                     />
                   </div>
                   <div class="mb-3">
@@ -202,6 +316,9 @@ export default function Manage() {
                       type="file"
                       class="form-control shadow p-3 bg-body rounded"
                       aria-describedby="emailHelp"
+                      multiple
+                      name="image"
+                      onChange={(event) => handleChangeForm(event)}
                     />
                   </div>
                 </div>
@@ -211,7 +328,7 @@ export default function Manage() {
               <hr />
               <div className="text-end">
                 <button type="submit" class="btn btn-primary">
-                  Submit
+                  {isUpdate ? "Update" : "Submit"}
                 </button>
               </div>
             </form>
