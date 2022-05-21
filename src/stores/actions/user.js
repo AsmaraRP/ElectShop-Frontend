@@ -6,3 +6,10 @@ export const getUserById = (id) => {
     payload: axios.get(`user/${id}`),
   };
 };
+
+export const logout = (refreshToken) => {
+  return {
+    type: "LOGOUT",
+    payload: axios.post("auth/logout", refreshToken),
+  };
+};
