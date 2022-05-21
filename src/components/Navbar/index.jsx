@@ -1,10 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
 function Navbar() {
   const location = useLocation();
   const pathname = location.pathname;
-  const dataUser = "";
+  const dataUser = useSelector((state) => state.user.data);
 
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-lightblue fixed-top text-center shadow-sm px-3 px-lg-0">
