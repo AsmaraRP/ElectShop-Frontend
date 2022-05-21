@@ -1,20 +1,61 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "../../utils/axios";
 import "./index.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserById } from "../../stores/actions/user";
 
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const msg = useSelector((state) => state.user.msg);
+  const isError = useSelector((state) => state.user.isError);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChangeForm = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const resultLogin = await axios.post("auth/login", form);
+      dispatch(getUserById(resultLogin.data.data.id));
+      localStorage.setItem("token", resultLogin.data.data.token);
+      localStorage.setItem("refreshToken", resultLogin.data.data.refreshToken);
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   return (
-    <div className="container">
+    <div className="container-lg">
       <div className="row vh-100">
         <div className="col-12 col-md-5 p-3 d-flex justify-content-center align-items-center position-relative">
           <button
             className="btn bg-primary bg-opacity-10 px-2 py-1 position-absolute top-0 start-0 ms-3 mt-3"
             style={{ bordeRadius: "10px" }}
+            onClick={() => navigate(-1)}
           >
             <i className="bi bi-chevron-left text-primary fw-bold fs-5"></i>
           </button>
-          <div className="container px-lg-5 px-md-4 px-3">
-            <form>
+          <div className="container-lg px-md-4 px-3">
+            {!msg ? null : isError ? (
+              <div className="alert alert-danger py-2" role="alert">
+                {msg}
+              </div>
+            ) : (
+              <div className="alert alert-success py-2" role="alert">
+                {msg}
+              </div>
+            )}
+            <form onSubmit={handleSubmit}>
               <h1 className="fw-bold">Welcome Back!</h1>
               <p className="opacity-75 fw-semibold mb-4">
                 Steps to get started, find the best stuff.
@@ -30,6 +71,7 @@ function Login() {
                   placeholder="Your email address"
                   name="email"
                   aria-label="email"
+                  onChange={handleChangeForm}
                 />
               </div>
               <div className="input-group mb-3">
@@ -43,6 +85,7 @@ function Login() {
                   placeholder="Your password"
                   name="password"
                   aria-label="password"
+                  onChange={handleChangeForm}
                 />
               </div>
               <div className="d-flex justify-content-between align-items-center">
@@ -52,14 +95,20 @@ function Login() {
                 >
                   Forgot password?
                 </Link>
-                <button className="btn btn-primary py-2 px-4 shadow">
+                <button
+                  type="submit"
+                  className="btn btn-primary py-2 px-4 shadow"
+                >
                   Login
                 </button>
               </div>
             </form>
             <p className="text-center w-100 position-absolute bottom-0 start-50 translate-middle-x">
               Not registered yet?{" "}
-              <Link to="#" className="text-primary text-decoration-none">
+              <Link
+                to="/register"
+                className="text-primary text-decoration-none"
+              >
                 Create an account!
               </Link>
             </p>
@@ -67,11 +116,6 @@ function Login() {
         </div>
         <div className="col-7 p-3 d-none d-md-block">
           <div className="login-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
-            <img
-              src={require("../../assets/images/login.png")}
-              className="w-75"
-              alt="login page illustration"
-            />
             <div className="card welcome-card p-4 border-0 mb-5 position-absolute bottom-0 start-50 translate-middle-x">
               <img
                 src={require("../../assets/images/logo.png")}
