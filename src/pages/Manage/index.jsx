@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./index.css";
-import image from "./../../assets/imgDashboard/image 22.png";
+// import image from "./../../assets/imgDashboard/image 22.png";
 import Pagination from "react-paginate";
+import { useSelector, useDispatch } from "react-redux";
+import { getDataProduct } from "../../stores/actions/product";
 
 export default function Manage() {
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const product = useSelector((state) => state.product);
 
   function openModal() {
     setIsOpen(true);
@@ -16,6 +20,21 @@ export default function Manage() {
   function closeModal() {
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    getdataProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getdataProduct = async () => {
+    try {
+      // PANGGIL ACTION
+      const resultProduct = await dispatch(getDataProduct());
+      console.log(resultProduct);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
   return (
     <>
       <div className="container">
@@ -53,91 +72,63 @@ export default function Manage() {
           </button>
         </div>
         <div className="row manageList">
-          <div class="card col-md-11 shadow p-3 bg-body rounded">
-            <div class="card-body">
-              <div className="container">
-                <div className="row manageList">
-                  <div className="col-sm-2">
-                    <img src={image} alt="" className="imageList" />
-                  </div>
-                  <div className="col-sm-3">
-                    <h6 className="badge bg-primary text-wrap">HeadPhone</h6>
-                    <h5>Sony mdr 10010</h5>
-                    <h6 className="mobilePrice">$3000</h6>
-                  </div>
-                  <div className="col-sm-3 align-self-end">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="col-sm-4 align-self-end">
-                    <button type="button" class="btn btn-outline-primary">
-                      edit
-                    </button>
-                    <button type="button" class="btn btn-outline-primary">
-                      montly
-                    </button>
+          {product.isLoading ? (
+            <div className="col-12 text-center">
+              <div
+                className="spinner-border text-primary text-center"
+                role="status"
+              >
+                <span className="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          ) : (
+            product.data.map((item) => (
+              <div
+                class="card col-md-11 shadow p-3 bg-body rounded"
+                key={item.id}
+              >
+                <div class="card-body">
+                  <div className="container">
+                    <div className="row manageList">
+                      <div className="row bg-white">
+                        <div className="col-sm-2">
+                          <img
+                            src={
+                              item.image
+                                ? `https://res.cloudinary.com/djoebcjsc/image/upload/v1650916284/${
+                                    item.image.split(",")[0]
+                                  }`
+                                : "https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg"
+                            }
+                            alt=""
+                            className="imageList"
+                          />
+                        </div>
+                        <div className="col-sm-3">
+                          <h6 className="badge bg-primary text-wrap">
+                            {/* {item.name} */ item.image.split(",")[0]}
+                          </h6>
+                          <h5>{item.type}</h5>
+                          <h6 className="mobilePrice">{item.price}</h6>
+                        </div>
+                        <div className="col-sm-3 align-self-end">
+                          <h4>{item.price}</h4>
+                        </div>
+                        <div className="col-sm-4 align-self-end">
+                          <button type="button" class="btn btn-outline-primary">
+                            edit
+                          </button>
+                          <button type="button" class="btn btn-outline-primary">
+                            montly
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="row manageList">
-          <div class="card col-md-11 shadow p-3 bg-body rounded">
-            <div class="card-body">
-              <div className="container">
-                <div className="row manageList">
-                  <div className="col-sm-2">
-                    <img src={image} alt="" className="imageList" />
-                  </div>
-                  <div className="col-sm-3">
-                    <h6 className="badge bg-primary text-wrap">HeadPhone</h6>
-                    <h5>Sony mdr 10010</h5>
-                    <h6 className="mobilePrice">$3000</h6>
-                  </div>
-                  <div className="col-sm-3 align-self-end">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="col-sm-4 align-self-end">
-                    <button type="button" class="btn btn-outline-primary">
-                      edit
-                    </button>
-                    <button type="button" class="btn btn-outline-primary">
-                      montly
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row manageList">
-          <div class="card col-md-11 shadow p-3 bg-body rounded">
-            <div class="card-body">
-              <div className="container">
-                <div className="row manageList">
-                  <div className="col-sm-2">
-                    <img src={image} alt="" className="imageList" />
-                  </div>
-                  <div className="col-sm-3">
-                    <h6 className="badge bg-primary text-wrap">HeadPhone</h6>
-                    <h5>Sony mdr 10010</h5>
-                    <h6 className="mobilePrice">$3000</h6>
-                  </div>
-                  <div className="col-sm-3 align-self-end">
-                    <h4>$3000</h4>
-                  </div>
-                  <div className="col-sm-4 align-self-end">
-                    <button type="button" class="btn btn-outline-primary">
-                      edit
-                    </button>
-                    <button type="button" class="btn btn-outline-primary">
-                      montly
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            ))
+          )}
         </div>
         <div className="col-md-10">
           <Pagination
@@ -179,6 +170,14 @@ export default function Manage() {
                       aria-describedby="emailHelp"
                     />
                   </div>
+                  <div class="mb-3">
+                    <h5>Type</h5>
+                    <input
+                      type="text"
+                      class="form-control shadow p-3 bg-body rounded"
+                      aria-describedby="emailHelp"
+                    />
+                  </div>
                 </div>
                 <div className="col-md-6">
                   <div class="mb-3">
@@ -197,16 +196,17 @@ export default function Manage() {
                       aria-describedby="emailHelp"
                     />
                   </div>
+                  <div class="mb-3">
+                    <h5>image</h5>
+                    <input
+                      type="file"
+                      class="form-control shadow p-3 bg-body rounded"
+                      aria-describedby="emailHelp"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="mb-3">
-                <h5>image</h5>
-                <input
-                  type="file"
-                  class="form-control shadow p-3 bg-body rounded"
-                  aria-describedby="emailHelp"
-                />
-              </div>
+
               <br />
               <hr />
               <div className="text-end">
