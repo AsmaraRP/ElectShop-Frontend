@@ -1,24 +1,47 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "../../utils/axios";
+import { logout } from "../../stores/actions/user";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
-  const dataUser = "";
+  const refreshToken = localStorage.getItem("refreshToken");
+  const dataUser = useSelector((state) => state.user.data);
+
+  const handleLogout = async () => {
+    localStorage.clear();
+    dispatch(logout({ refreshToken }));
+  };
+
+  console.log(process.env.REACT_APP_CLOUDINARY_BASE_LINK + dataUser.image);
 
   return (
-    <nav className="navbar navbar-expand-md navbar-light bg-lightblue fixed-top text-center shadow-sm px-3 px-lg-0">
+    <nav
+      className={`navbar navbar-expand-md navbar-light ${
+        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-transparent"
+      } fixed-top text-center px-3 px-lg-0`}
+    >
       <div className="container-lg">
-        <Link to="/" className="navbar-brand">
-          <img
-            src={require("../../assets/images/logo.png")}
-            alt="logo"
-            height="44"
-          />
-          <span className="fw-bold text-primary ms-2 d-none d-sm-inline">
-            Electshop
-          </span>
-        </Link>
+        {pathname === "/" ? (
+          <Link to="/" className="navbar-brand">
+            <img
+              src={require("../../assets/images/logo.png")}
+              alt="logo"
+              height="44"
+            />
+            <span className="fw-bold text-primary ms-2 d-none d-sm-inline">
+              Electshop
+            </span>
+          </Link>
+        ) : (
+          <button className="btn bg-lightblue" onClick={() => navigate(-1)}>
+            <i className="bi bi-chevron-left text-primary"></i>
+          </button>
+        )}
         <button
           className="navbar-toggler"
           type="button"
@@ -64,7 +87,7 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          {!dataUser ? (
+          {Object.keys(dataUser).length === 0 ? (
             <Link
               to="/login"
               className="btn btn-primary py-2 shadow"
@@ -73,39 +96,83 @@ function Navbar() {
               Sign in
             </Link>
           ) : (
-            <div className="align-items-center">
-              <div className="dropdown ms-5">
-                <button
-                  className="bg-transparent border-0 dropdown-toggle"
-                  type="button"
-                  id="dropdownMenuButton1"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                  data-bs-offset="  0,20"
-                >
-                  <img
-                    src={dataUser ? dataUser.imagePath : ""}
-                    alt="profile"
-                    className="rounded-circle"
-                    style={{ width: "44px" }}
-                  />
-                </button>
-                <ul
-                  className="dropdown-menu dropdown-menu-end rounded-3"
-                  aria-labelledby="dropdownMenuButton1"
-                >
-                  <li>
-                    <Link className="dropdown-item" to="#">
-                      Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/" className="dropdown-item">
-                      Logout
-                    </Link>
-                  </li>
-                </ul>
-              </div>
+            <div className="dropstart ms-5">
+              <button
+                className="bg-transparent border-0"
+                type="button"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                data-bs-offset="0,20"
+              >
+                <img
+                  src={
+                    pathname === "/"
+                      ? process.env.REACT_APP_CLOUDINARY_BASE_LINK +
+                        dataUser.image
+                      : require("../../assets/images/logo.png")
+                  }
+                  alt={pathname === "/" ? "profile picture" : "logo"}
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                  }}
+                />
+              </button>
+              <ul
+                className="dropdown-menu dropdown-menu-end shadow border-0"
+                aria-labelledby="dropdownMenuButton1"
+              >
+                {pathname === "/" ? (
+                  ""
+                ) : (
+                  <div>
+                    <li>
+                      <img
+                        src={
+                          process.env.REACT_APP_CLOUDINARY_BASE_LINK +
+                          dataUser.image
+                        }
+                        alt="profpic"
+                        className="px-2"
+                        style={{
+                          width: "100%",
+                          height: "80px",
+                          objectFit: "cover",
+                          borderRadius: "10px",
+                        }}
+                      />
+                    </li>
+                    <hr className="my-2" />
+                  </div>
+                )}
+                <li>
+                  <Link className="dropdown-item" to="/cart">
+                    Cart
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/history">
+                    History
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/profil">
+                    Profile
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    className="dropdown-item"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </ul>
             </div>
           )}
         </div>

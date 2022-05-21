@@ -6,19 +6,23 @@ import ProductCard from "../../components/ProductCard";
 import FilterCategory from "../../components/FilterCategory";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getDataProduct } from "../../stores/actions/product";
-import { createCheckout, deleteCheckout } from "../../stores/actions/checkout";
+import { createCheckout } from "../../stores/actions/checkout";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { state } = useLocation();
+
   const [page] = useState(1);
   const [limit] = useState(6);
   const [searchType, setSearchType] = useState("");
-  const [searchName, setSearchName] = useState("");
+  const [searchName, setSearchName] = useState("Headphone");
   const [sort] = useState("");
+  const [search, setSearch] = useState("");
 
+  const product = useSelector((state) => state.product);
   useEffect(() => {
     handleGetDataProduct();
   }, []);
@@ -31,16 +35,25 @@ function Home() {
     await dispatch(getDataProduct(page, limit, searchType, searchName, sort));
   };
 
-  const product = useSelector((state) => state.product);
-  console.log(product.data);
-  const handleDetail = () => {
-    navigate("/detail");
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+    if (e.key === "Enter") {
+      setSearchType(e.target.value);
+    }
+  };
+  const handleClickSearch = () => {
+    setSearchType(search);
+  };
+  const handleClickDetail = (id) => {
+    navigate("/detail", { state: { idProduct: id } });
   };
   const handleClickCategory = (category) => {
+    setSearchType("");
     setSearchName(category);
   };
-  const handleCheckout = async (id) => {
-    await dispatch(createCheckout({ productId: id, userId: 2 }));
+
+  const handleClickCheckout = async (id) => {
+    await dispatch(createCheckout({ productId: id }));
   };
 
   return (
@@ -62,10 +75,10 @@ function Home() {
                 </p>
                 <div className="text-center text-md-start">
                   <Link to="#" className="btn btn-primary py-2 me-3 shadow">
-                    <i class="bi bi-bag me-2"></i>Shop Now
+                    <i className="bi bi-bag me-2"></i>Shop Now
                   </Link>
                   <Link to="#" className="btn btn-outline-primary py-2">
-                    <i class="bi bi-briefcase me-2"></i>Be a Seller
+                    <i className="bi bi-briefcase me-2"></i>Be a Seller
                   </Link>
                 </div>
               </div>
@@ -75,19 +88,19 @@ function Home() {
                   alt="hero"
                   className="home__hero-img"
                 />
-                <div className="home__balloon1 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
+                <div className="home__balloon1 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-sm-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     Trusted by more than{" "}
                     <span className="text-primary">6000+</span> people.
                   </span>
                 </div>
-                <div className="home__balloon2 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
+                <div className="home__balloon2 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-sm-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     There are <span className="text-primary">6 million</span>{" "}
                     electronic products.
                   </span>
                 </div>
-                <div className="home__balloon3 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-md-block">
+                <div className="home__balloon3 card px-3 py-2 text-start border-0 shadow position-absolute d-none d-sm-block">
                   <span className="fs-7 fw-bold text-darkgray">
                     There are <span className="text-primary">5000+</span>{" "}
                     trusted sellers.
@@ -98,7 +111,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="container-lg py-5 text-center px-3">
+        <div className="how-it-works container-lg py-5 text-center px-3">
           <div className="d-inline-block bg-lightblue rounded-pill px-3 py-2 mb-4">
             <span className="text-primary fw-semibold">How it Works</span>
           </div>
@@ -114,12 +127,12 @@ function Home() {
                 style={{ borderRadius: "20px" }}
               >
                 <div
-                  className="rounded-circle px-4 py-3 align-self-start text-center mb-4"
+                  className="card-icon rounded-circle px-4 py-3 align-self-start text-center mb-4"
                   style={{
                     backgroundColor: "#7777771a",
                   }}
                 >
-                  <i class="bi bi-basket3 text-darkgray fs-3 lh-base"></i>
+                  <i className="bi bi-basket3 text-darkgray fs-3 lh-base"></i>
                 </div>
                 <h3 className="fs-4 fw-extrabold text-darkgray mb-3">
                   Select Product
@@ -137,12 +150,12 @@ function Home() {
                 style={{ borderRadius: "20px" }}
               >
                 <div
-                  className="rounded-circle px-4 py-3 align-self-start text-center mb-4"
+                  className="card-icon rounded-circle px-4 py-3 align-self-start text-center mb-4"
                   style={{
                     backgroundColor: "#7777771a",
                   }}
                 >
-                  <i class="bi bi-cash-coin text-darkgray fs-3 lh-base"></i>
+                  <i className="bi bi-cash-coin text-darkgray fs-3 lh-base"></i>
                 </div>
                 <h3 className="fs-4 fw-extrabold text-darkgray mb-3">
                   Make Payment
@@ -160,12 +173,12 @@ function Home() {
                 style={{ borderRadius: "20px" }}
               >
                 <div
-                  className="rounded-circle px-4 py-3 align-self-start text-center mb-4"
+                  className="card-icon rounded-circle px-4 py-3 align-self-start text-center mb-4"
                   style={{
                     backgroundColor: "#7777771a",
                   }}
                 >
-                  <i class="bi bi-box text-darkgray fs-3 lh-base"></i>
+                  <i className="bi bi-box text-darkgray fs-3 lh-base"></i>
                 </div>
                 <h3 className="fs-4 fw-extrabold text-darkgray mb-3">
                   Receive Product
@@ -196,9 +209,13 @@ function Home() {
                 type="text"
                 className="form-control py-2 d-none d-md-inline-block"
                 placeholder="Search"
+                onKeyPress={handleChangeSearch}
               />
-              <button className="home__search-button btn py-2 py-md-0 me-1 position-absolute end-0 top-50 translate-middle-y">
-                <i class="bi bi-search text-primary"></i>
+              <button
+                className="home__search-button btn py-2 py-md-0 me-1 position-absolute end-0 top-50 translate-middle-y"
+                onClick={handleClickSearch}
+              >
+                <i className="bi bi-search text-primary"></i>
               </button>
             </div>
           </div>
@@ -207,8 +224,8 @@ function Home() {
               <div className="col" key={item.id}>
                 <ProductCard
                   data={item}
-                  handleDetail={handleDetail}
-                  handleCheckout={handleCheckout}
+                  handleClickDetail={handleClickDetail}
+                  handleClickCheckout={handleClickCheckout}
                 />
               </div>
             ))}

@@ -4,11 +4,40 @@
 .home__search-button {
   background-color: #f2f4fb;
 }
+.how-it-works .card {
+  transition: 0.3s;
+}
+.how-it-works .card:hover {
+  background-color: var(--bs-primary);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+.how-it-works .card:hover h3,
+.how-it-works .card:hover p {
+  color: white !important;
+}
+.how-it-works .card:hover .card-icon {
+  background-color: white !important;
+}
 
 /* sm */
 @media (width >= 576px) {
   .home__hero-img {
-    width: 500px;
+    width: 440px;
+  }
+  .home__balloon1 {
+    top: 0;
+    left: 12%;
+    width: 160px;
+  }
+  .home__balloon2 {
+    top: 30%;
+    right: 2%;
+    width: 160px;
+  }
+  .home__balloon3 {
+    bottom: 10%;
+    right: 10%;
+    width: 150px;
   }
 }
 /* md */
@@ -37,6 +66,9 @@
 }
 /* lg */
 @media (width >= 992px) {
+  .home__hero-img {
+    width: 500px;
+  }
   .home__balloon1 {
     top: 0;
     left: 20%;
