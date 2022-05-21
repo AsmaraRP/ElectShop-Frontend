@@ -6,14 +6,13 @@ import ProductCard from "../../components/ProductCard";
 import FilterCategory from "../../components/FilterCategory";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getDataProduct } from "../../stores/actions/product";
 import { createCheckout } from "../../stores/actions/checkout";
 
 function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { state } = useLocation();
 
   const [page] = useState(1);
   const [limit] = useState(6);
