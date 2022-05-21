@@ -1,0 +1,211 @@
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+.profile__mainPage {
+    height: 100%;
+    background-color: #f2f4fb;
+}
+.profile__photoSetting{
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    padding: 20px;
+}
+.profile__uploadIcon{
+    z-index: 1;
+    position: relative;
+    top: -50px;
+    left: 40%;
+}
+.profile__photoProfile{
+    width: 100%;
+}
+.profile__des{
+    height: 300px;
+    background-color: #FFFFFF;
+    padding-top: 30px;
+}
+.profile__info{
+    margin-left: 100px;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 60px;
+    color: #333333;
+}
+.profile__infoDetail{
+    margin-left: 120px;
+    margin-top: 20px;
+    width: 50%;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #777777;
+}
+.profile__boundary{
+    margin-top: 50px;
+    margin-left: 100px;
+    width: 50%;
+}
+.profile__form{
+    height: 700px;
+    background-color: #FFFFFF;
+}
+.profile__cardForm{
+    margin-left: 150px;
+    margin-top: 30px;
+}
+.profile__labelForm{
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    color: #333333;
+}
+.profile__formatForm{
+    padding: 20px;
+    background-color: #FFFFFF;
+    height: 80px;
+    width: 450px;
+    border-radius: 20px;
+    align-items: center;
+}
+.profile__inputForm{
+    width: 100%;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #777777;
+    border: none;
+}
+.profile__icon{
+    align-items: center;
+}
+.profile__genderForm{
+    background-color: #FFFFFF;
+    height: 80px;
+    width: 400px;
+    border-radius: 20px;
+    align-items: center;
+}
+.profile__iconGender{
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    height: 100%;
+    padding: 25px;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #777777;
+    align-items: center;
+}
+.profile__iconGenderActive{
+    background-color: #415FE7;
+    border-radius: 20px;
+    height: 100%;
+    padding: 25px;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #FFFFFF;
+    align-items: center;
+}
+.profile__genderButton{
+    border: none;
+    background: none;
+    color: #777777;
+}
+.profile__genderButtonActive{
+    border: none;
+    background: none;
+    color: #FFFFFF;
+}
+.profile__codePhone{
+    border: none;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333333;
+}
+.profile__changePassword{
+    border: none;
+    background: none;
+    color: #415FE7;
+}
+.profile__submitButton{
+    margin-top: 40px;
+    margin-left: 135px;
+    width: 206px;
+    height: 69px;
+    background: #0020B2;
+    border-color:#0020B2 ;
+    box-shadow: 5px 4px 50px rgba(3, 0, 173, 0.2);
+    border-radius: 20px;
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 140%;
+    letter-spacing: 0.05em;
+    color: #FFFFFF;
+}
+@media screen and (max-width: 1400px) {
+    .profile__mainPage {
+        height: 2100px;
+    }
+    .profile__form{
+        height: 1100px;
+    }
+    .profile__uploadIcon{
+        left: 60%;
+        width: 200px;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .profile__boundary{
+        display: none;
+    }
+    .profile__uploadIcon{
+        left: 60%;
+        width: 150px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .profile__info{
+        margin-left: 10px;
+        font-size: 30px;
+    }
+    .profile__infoDetail{
+        margin-left: 50px;
+        width: 80%;
+        font-size: 15px;
+    }
+    .profile__uploadIcon{
+        left: 50%;
+        width: 130px;
+    }
+    .profile__cardForm{
+        margin-left: 20px;
+        margin-top: 30px;
+    }
+    .profile__labelForm{
+        font-size: 18px;
+    }
+    .profile__formatForm{
+        height: 80px;
+        width: 350px;
+    }
+    .profile__inputForm{
+        font-size: 14px;
+    }
+    .profile__genderForm{
+        width: 300px;
+    }
+    .profile__submitButton{
+        margin-left: 15px;
+    }
+}
