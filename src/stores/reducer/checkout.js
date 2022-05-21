@@ -5,15 +5,15 @@ const initialState = {
   pageInfo: {},
   msg: "",
 };
-const product = (state = initialState, action) => {
+const checkout = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_DATA_PRODUCT_PENDING": {
+    case "CREATE_CHECKOUT_PENDING": {
       return {
         ...state,
         isLoading: true,
       };
     }
-    case "GET_DATA_PRODUCT_FULFILLED": {
+    case "CREATE_CHECKOUT_FULFILLED": {
       return {
         ...state,
         isLoading: false,
@@ -22,7 +22,7 @@ const product = (state = initialState, action) => {
         msg: action.payload.data.msg,
       };
     }
-    case "GET_DATA_PRODUCT_REJECTED": {
+    case "CREATE_CHECKOUT_REJECTED": {
       return {
         ...state,
         isError: true,
@@ -37,4 +37,4 @@ const product = (state = initialState, action) => {
   }
 };
 
-export default product;
+export default checkout;

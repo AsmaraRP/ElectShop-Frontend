@@ -4,8 +4,45 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import ProductCard from "../../components/ProductCard";
 import FilterCategory from "../../components/FilterCategory";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getDataProduct } from "../../stores/actions/product";
+import { createCheckout, deleteCheckout } from "../../stores/actions/checkout";
 
 function Home() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [page] = useState(1);
+  const [limit] = useState(6);
+  const [searchType, setSearchType] = useState("");
+  const [searchName, setSearchName] = useState("");
+  const [sort] = useState("");
+
+  useEffect(() => {
+    handleGetDataProduct();
+  }, []);
+
+  useEffect(() => {
+    handleGetDataProduct();
+  }, [searchType, searchName]);
+
+  const handleGetDataProduct = async () => {
+    await dispatch(getDataProduct(page, limit, searchType, searchName, sort));
+  };
+
+  const product = useSelector((state) => state.product);
+  console.log(product.data);
+  const handleDetail = () => {
+    navigate("/detail");
+  };
+  const handleClickCategory = (category) => {
+    setSearchName(category);
+  };
+  const handleCheckout = async (id) => {
+    await dispatch(createCheckout({ productId: id, userId: 2 }));
+  };
+
   return (
     <>
       <Navbar />
@@ -153,7 +190,7 @@ function Home() {
             By Electshop
           </h2>
           <div className="d-flex no-wrap justify-content-between align-items-center pt-3 pb-5">
-            <FilterCategory />
+            <FilterCategory handleClickCategory={handleClickCategory} />
             <div className="position-relative w-25">
               <input
                 type="text"
@@ -166,15 +203,15 @@ function Home() {
             </div>
           </div>
           <div className="row row-cols-2 row-cols-md-3 gy-5 g-md-5 my-5">
-            <div className="col">
-              <ProductCard />
-            </div>
-            <div className="col">
-              <ProductCard />
-            </div>
-            <div className="col">
-              <ProductCard />
-            </div>
+            {product.data.map((item) => (
+              <div className="col" key={item.id}>
+                <ProductCard
+                  data={item}
+                  handleDetail={handleDetail}
+                  handleCheckout={handleCheckout}
+                />
+              </div>
+            ))}
           </div>
           <Link to="#" className="btn btn-primary fw-semibold px-4 py-2 shadow">
             View All
