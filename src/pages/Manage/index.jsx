@@ -1,21 +1,38 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./index.css";
-// import image from "./../../assets/imgDashboard/image 22.png";
 import Pagination from "react-paginate";
+import {
+  useNavigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getDataProduct, postProduct } from "../../stores/actions/product";
+import {
+  getDataProduct,
+  postProduct,
+  updateProduct,
+  deleteProduct,
+} from "../../stores/actions/product";
 
 export default function Manage() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const params = Object.fromEntries([...searchParams]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const product = useSelector((state) => state.product);
-  const [page] = useState(1);
   const [limit] = useState(6);
-  const [searchType, setSearchType] = useState("");
-  const [searchName, setSearchName] = useState("");
+  const [page, setPage] = useState(params.page ? params.page : 1);
   const [sort] = useState("");
-  const [search, setSearch] = useState("");
+  const [searchType, setSearchType] = useState(
+    params.searchType ? params.searchType : ""
+  );
+  // const [searchName, setSearchName] = useState(
+  //   params.searchName ? params.searchName : ""
+  // );
+  const [searchName] = useState("");
+  const [search, setSearch] = useState(params.search ? params.search : "");
   const [image, setImage] = useState(null);
   const [form, setForm] = useState({
     name: "",
@@ -72,6 +89,28 @@ export default function Manage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getdataProduct();
+    const params = {};
+    if (page !== 1) {
+      params.page = page;
+    }
+    if (search) {
+      params.search = search;
+    }
+    if (searchType) {
+      params.search = searchType;
+    }
+    // if (searchName) {
+    //   params.search = searchName;
+    // }
+    navigate({
+      pathname: "/manage",
+      search: `?${createSearchParams(params)}`,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, search, searchType]);
+
   const getdataProduct = async () => {
     try {
       // PANGGIL ACTION
@@ -84,6 +123,11 @@ export default function Manage() {
     }
   };
 
+  const handlePagination = (data) => {
+    // console.log(data.selected + 1);
+    setPage(data.selected + 1);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(form);
@@ -91,38 +135,36 @@ export default function Manage() {
     for (const data in form) {
       formData.append(data, form[data]);
     }
-    // // formData.append("name", form.name)
-    // // axios.post("...", formData)
-
-    // // untuk mengecek data di formData
-    // for (const data of formData.entries()) {
-    //   console.log(data[0] + ", " + data[1]);
-    //   // name, "Bagus"
-    // }
-
     await dispatch(postProduct(formData));
     getdataProduct();
+    setIsOpen(false);
     setImage(null);
     resetForm();
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    // delete form["id"];
     console.log(form);
-    // console.log(idMovie);
     const formData = new FormData();
     for (const data in form) {
       formData.append(data, form[data]);
     }
-    // formData.append("name", form.name)
-    // axios.patch("...", formData)
-    // dispatch(updateMovie(idMovie, formData));
+    dispatch(updateProduct(idProduct, formData));
     getdataProduct();
-
+    setIsOpen(false);
     setIsUpdate(false);
     setImage(null);
     resetForm();
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+    if (e.key === "Enter") {
+      setSearchType(e.target.value);
+    }
+  };
+  const handleClickSearch = () => {
+    setSearchType(search);
   };
 
   const resetForm = () => {
@@ -135,26 +177,33 @@ export default function Manage() {
       image: null,
     });
   };
+  const handleDelete = async (id) => {
+    await dispatch(deleteProduct(id));
+    navigate({
+      pathname: "/manage",
+    });
+    getdataProduct();
+  };
   return (
     <>
       <div className="container">
         <div className="row search__group">
           <form class="col-md-9 align-items-center">
-            <div class="col-auto">
-              <label class="visually-hidden" for="autoSizingInputGroup">
-                Search
-              </label>
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  for="autoSizingInputGroup"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <div type="button" class="btn btn-primary">
-                  <ion-icon name="search"></ion-icon>
-                </div>
+            <div class="input-group">
+              <input
+                class="form-control"
+                for="autoSizingInputGroup"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+                onKeyPress={handleChangeSearch}
+              />
+              <div
+                type="button"
+                class="btn btn-primary"
+                onClick={handleClickSearch}
+              >
+                <ion-icon name="search"></ion-icon>
               </div>
             </div>
           </form>
@@ -221,7 +270,11 @@ export default function Manage() {
                           >
                             edit
                           </button>
-                          <button type="button" class="btn btn-outline-primary">
+                          <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            onClick={() => handleDelete(item.id)}
+                          >
                             Delete
                           </button>
                         </div>
@@ -238,7 +291,8 @@ export default function Manage() {
             previousLabel={<ion-icon name="arrow-dropleft"></ion-icon>}
             nextLabel={<ion-icon name="arrow-dropright"></ion-icon>}
             breakLabel={"..."}
-            pageCount={"8"}
+            pageCount={product.pageInfo.totalPage}
+            onPageChange={handlePagination}
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}
             activeClassName={"active"}

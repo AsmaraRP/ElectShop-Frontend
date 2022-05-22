@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./index.css";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,10 +27,12 @@ export default function ViewAll() {
   const product = useSelector((state) => state.product);
   useEffect(() => {
     handleGetDataProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     handleGetDataProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchType, searchName]);
 
   const handleGetDataProduct = async () => {

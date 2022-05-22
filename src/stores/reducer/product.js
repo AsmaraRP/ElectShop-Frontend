@@ -53,7 +53,7 @@ const product = (state = initialState, action) => {
         isLoading: true,
         isError: false,
         data: [],
-        msg: action.payload.response.data.msg,
+        msg: action.payload,
       };
     }
     case "UPDATE_PRODUCT_PENDING": {
