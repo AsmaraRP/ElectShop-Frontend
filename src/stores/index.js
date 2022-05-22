@@ -4,6 +4,8 @@ import promiseMiddleware from "redux-promise-middleware";
 import rootReducer from "./reducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import product from "./reducer/product";
+import checkout from "./reducer/checkout";
 
 const persistConfig = {
   key: "root",
