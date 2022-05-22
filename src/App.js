@@ -11,6 +11,8 @@ import Cart from "./pages/Cart";
 import Detail from "./pages/Detail";
 import Confirm from "./pages/Confirm";
 import History from "./pages/History";
+import Unauthorized from "./pages/Unauthorized";
+import Activation from "./pages/Activation";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/history" element={<History />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/activation" element={<Activation />} />
       </Routes>
     </BrowserRouter>
   );

@@ -4,16 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getDataProduct } from "../../stores/actions/product";
 import FilterCategory from "../../components/FilterCategory";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import ReactPaginate from "react-paginate";
 
 export default function ViewAll() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const [limit] = useState(6);
   const [searchType, setSearchType] = useState("");
   const [searchName, setSearchName] = useState("Headphone");
-  const [sort] = useState("");
+  const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
 
   const handleClickToCart = () => {
@@ -32,8 +35,7 @@ export default function ViewAll() {
 
   useEffect(() => {
     handleGetDataProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchType, searchName]);
+  }, [searchType, searchName, sort]);
 
   const handleGetDataProduct = async () => {
     await dispatch(getDataProduct(page, limit, searchType, searchName, sort));
@@ -53,11 +55,22 @@ export default function ViewAll() {
   const handleClickSearch = () => {
     setSearchType(search);
   };
+
+  const handleProductSort = (e) => {
+    setSort(e.target.value);
+  };
+
+  const handlePagination = (e) => {
+    setPage(e.selected + 1);
+  };
+
   return (
     <>
-      <div className="container">
+      <Navbar />
+      <div className="container-fluid bg-skyblue py-5 mt-4"></div>
+      <div className="container-lg position-relative pb-5">
         <div className="row search__group">
-          <form class="col-md-9 align-items-center">
+          <form class="col-md-10 align-items-center">
             <div class="col-auto">
               <label class="visually-hidden" for="autoSizingInputGroup">
                 Search
@@ -81,16 +94,97 @@ export default function ViewAll() {
               </div>
             </div>
           </form>
-          <div type="button" class="col-md-1 btn btn-primary">
-            <ion-icon name="funnel"></ion-icon>
+          <div className="dropdown col-md-1">
+            <button
+              type="button"
+              class="btn bg-white shadow position-relative"
+              id="productFilterButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="bi bi-funnel"></i>
+              {sort ? (
+                <div
+                  className="bg-primary rounded-circle position-absolute bottom-50 start-50 translate-middle-y"
+                  style={{ width: "8px", height: "8px" }}
+                ></div>
+              ) : null}
+            </button>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="productFilterButton"
+            >
+              <li className="dropdown-item">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="productSort"
+                    id="a-z"
+                    value="type ASC"
+                    onClick={handleProductSort}
+                  />
+                  <label class="form-check-label w-100" for="a-z">
+                    A - Z
+                  </label>
+                </div>
+              </li>
+              <li className="dropdown-item">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="productSort"
+                    id="z-a"
+                    value="type DESC"
+                    onClick={handleProductSort}
+                  />
+                  <label class="form-check-label w-100" for="z-a">
+                    Z - A
+                  </label>
+                </div>
+              </li>
+              <li className="dropdown-item">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="productSort"
+                    id="lowestPrice"
+                    value="price ASC"
+                    onClick={handleProductSort}
+                  />
+                  <label class="form-check-label" for="lowestPrice">
+                    Lowest Price
+                  </label>
+                </div>
+              </li>
+              <li className="dropdown-item">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="productSort"
+                    id="highestPrice"
+                    value="price DESC"
+                    onClick={handleProductSort}
+                  />
+                  <label class="form-check-label" for="highestPrice">
+                    Highest Price
+                  </label>
+                </div>
+              </li>
+            </ul>
           </div>
-          <button
-            type="button"
-            class="col-md-1 btn btn-primary"
-            onClick={handleClickToCart}
-          >
-            <i class="bi bi-cart d-block"></i>
-          </button>
+          <div className="col-md-1">
+            <button
+              type="button"
+              class="btn shadow"
+              onClick={handleClickToCart}
+            >
+              <i class="bi bi-cart d-block"></i>
+            </button>
+          </div>
         </div>
         <br />
         <nav class="navbar navbar-expand-lg navbar-light bg-white navbar__viewall">
@@ -166,7 +260,29 @@ export default function ViewAll() {
             ))
           )}
         </div>
+        <div
+          className="bg-white d-inline-block shadow px-2 py-2 position-absolute top-100 start-50 translate-middle"
+          style={{ borderRadius: "20px" }}
+        >
+          <ReactPaginate
+            previousLabel={<i class="bi bi-chevron-left"></i>}
+            nextLabel={<i class="bi bi-chevron-right"></i>}
+            breakLabel={"..."}
+            pageCount={product.pageInfo.totalPage}
+            onPageChange={handlePagination}
+            containerClassName={"pagination my-0"}
+            pageClassName={"page-item px-1"}
+            pageLinkClassName={"page-link border-0 px-3 py-2"}
+            previousClassName={"page-item me-2"}
+            previousLinkClassName={"page-link border-0 border-end px-3 py-2"}
+            nextClassName={"page-item ms-2"}
+            nextLinkClassName={"page-link border-0 border-start px-3 py-2"}
+            activeClassName={"active"}
+            activeLinkClassName={"rounded-circle"}
+          />
+        </div>
       </div>
+      <Footer />
     </>
   );
 }
