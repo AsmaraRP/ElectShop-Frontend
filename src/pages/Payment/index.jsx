@@ -1,12 +1,41 @@
-import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  Link,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import "./index.css";
 import ShopCard from "../../components/card";
-
+import { updateDataCheckout } from "../../stores/actions/checkout";
 function Payment() {
+  const { state } = useLocation();
+  const [adress, setAdress] = useState();
+  const dispatch = useDispatch();
+  const [data, setData] = useState({
+    addresDelivery: "",
+    review: null,
+    rating: null,
+    statusCart: "notActive",
+  });
+
+  const [idCheckout] = useState(state[2]);
+
+  const checkOut = useSelector((state) => state.checkOut);
+  const handleAdress = (event) => {
+    setAdress(event.target.value);
+  };
+
+  console.log(state);
   const navigate = useNavigate();
-  const handleSuccesPayment = () => {
-    navigate("/transactionstatus");
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await dispatch(updateDataCheckout(idCheckout, data));
+    navigate("/history", {
+      state: [idCheckout, data],
+    });
   };
   return (
     <div className="container pagePreviews">
@@ -21,6 +50,7 @@ function Payment() {
                 id="exampleFormControlTextarea1"
                 rows="3"
                 placeholder="Input Adress"
+                onChange={handleAdress}
               ></textarea>
             </div>
             <button className="cart__productCard--adress__button">
@@ -29,9 +59,7 @@ function Payment() {
             </button>
           </div>
           <div className="cart__productCard--shopCard">
-            <ShopCard />
-            <ShopCard />
-            <ShopCard />
+            {<ShopCard data={state} key={state.id} />}
           </div>
           <div className="payment__priceBoxs">
             <div className="payment__priceBox__total">
@@ -93,7 +121,9 @@ function Payment() {
                 $6000
               </h3>
             </div>
-            <button className="payment__payBillsButton">Pay Bills</button>
+            <button className="payment__payBillsButton" onClick={handleUpdate}>
+              Pay Bills
+            </button>
             <button className="payment__paymentButton">
               {" "}
               Choose Payment Method

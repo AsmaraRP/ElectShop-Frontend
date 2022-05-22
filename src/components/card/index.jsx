@@ -3,6 +3,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./index.css";
 
 function ShopCard(props) {
+  const { id, image, name, price, stock, type } = props.data[0].data[0];
+  console.log(image.split(",")[0]);
+
   const [count, setCount] = useState(0);
   const increaseCounters = () => {
     console.log("Increase Counter");
@@ -26,15 +29,17 @@ function ShopCard(props) {
       </div>
       <div className="shopCard__image">
         <img
-          src={require("../../assets/images/image 15.png")}
+          src={`https://res.cloudinary.com/elecshop/image/upload/v1652968777/${
+            image.split(",")[3]
+          }`}
           alt="headphone"
           className="shopCard__image--picture"
         />
       </div>
       <div className="shopCard__desc">
-        <h3 className="shopCard__desc--title">Sony MDR-5706</h3>
-        <p className="shopCard__desc--type">Headphone</p>
-        <h3 className="shopCard__desc--price">$3000</h3>
+        <h3 className="shopCard__desc--title">{type}</h3>
+        <p className="shopCard__desc--type">{name}</p>
+        <h3 className="shopCard__desc--price">{price * count}</h3>
       </div>
       <div className="shopCard__counter">
         <button className="shopCard__counter--delete">

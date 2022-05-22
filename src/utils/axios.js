@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const axiosApiIntances = axios.create({
-  baseURL: process.env.REACT_APP_SOURCE,
+  baseURL: "https://elshopproject.herokuapp.com/",
+  // baseURL: process.env.REACT_APP_SOURCE,
 });
 
 // Add a request interceptor
@@ -29,6 +30,25 @@ axiosApiIntances.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    if (error.response.status === 403) {
+      if (error.response.data.msg !== "jwt expired") {
+        localStorage.clear();
+        window.location.href = "/login";
+      } else {
+        const refreshToken = localStorage.getItem("refreshToken");
+        axiosApiIntances
+          .post("auth/refresh", { refreshToken })
+          .then((res) => {
+            localStorage.setItem("token", res.data.data.token);
+            localStorage.setItem("refreshToken", res.data.data.refreshToken);
+            window.location.reload();
+          })
+          .catch(() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          });
+      }
+    }
     return Promise.reject(error);
   }
 );

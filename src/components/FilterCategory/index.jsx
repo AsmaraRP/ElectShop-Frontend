@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "./index.css";
 
-function FilterCategory() {
-  const categories = ["Headphone", "Air Conditioner", "Television", "Router"];
+function FilterCategory(props) {
+  const categories = ["Headphone", "Speaker", "Television", "Printer"];
   const [selectedCategory, setCategory] = useState("Headphone");
+
+  props.handleClickCategory(selectedCategory);
 
   return (
     <div className="filter-category-wrapper px-2 py-4">

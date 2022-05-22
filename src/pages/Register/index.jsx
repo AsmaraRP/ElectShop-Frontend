@@ -44,6 +44,7 @@ function Register() {
           <button
             className="btn bg-primary bg-opacity-10 px-2 py-1 position-absolute top-0 start-0 ms-3 mt-3"
             style={{ bordeRadius: "10px" }}
+            onClick={() => navigate(-1)}
           >
             <i className="bi bi-chevron-left text-primary fw-bold fs-5"></i>
           </button>
@@ -107,12 +108,7 @@ function Register() {
           </div>
         </div>
         <div className="col-7 p-3 d-none d-md-block">
-          <div className="login-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
-            <img
-              src={require("../../assets/images/register.png")}
-              className="w-100"
-              alt="login page illustration"
-            />
+          <div className="register-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
             <div className="card welcome-card p-4 border-0 mb-5 position-absolute bottom-0 start-50 translate-middle-x">
               <img
                 src={require("../../assets/images/logo.png")}
