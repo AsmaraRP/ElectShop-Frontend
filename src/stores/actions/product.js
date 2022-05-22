@@ -1,5 +1,11 @@
 import axios from "../../utils/axios";
 
+export const getDataProductId = (id) => {
+  return {
+    type: "GET_DATA_PRODUCT_ID",
+    payload: axios.get(`product/${id}`),
+  };
+};
 export const getDataProduct = (page, limit, searchType, searchName, sort) => {
   return {
     type: "GET_DATA_PRODUCT",
@@ -19,13 +25,13 @@ export const postProduct = (form) => {
 export const updateProduct = (id, form) => {
   return {
     type: "UPDATE_PRODUCT",
-    payload: axios.patch(`Product/${id}`, form),
+    payload: axios.patch(`product/${id}`, form),
   };
 };
 
 export const deleteProduct = (id) => {
   return {
     type: "DELETE_PRODUCT",
-    payload: axios.delete(`Product/${id}`),
+    payload: axios.delete(`product/${id}`),
   };
 };

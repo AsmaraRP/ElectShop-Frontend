@@ -7,28 +7,67 @@ const initialState = {
 };
 const checkout = (state = initialState, action) => {
   switch (action.type) {
-    case "CREATE_CHECKOUT_PENDING": {
-      return {
-        ...state,
-        isLoading: true,
-      };
+    case "GET_DATA_CHECKOUT_PENDING": {
+      return { ...state, isLoading: true, isError: false };
     }
-    case "CREATE_CHECKOUT_FULFILLED": {
+
+    case "GET_DATA_CHECKOUT_FULFILLED": {
+      console.log(action.payload);
       return {
         ...state,
         isLoading: false,
-        data: action.payload.data.data,
-        pageInfo: action.payload.data.pagination,
+        isError: false,
+      };
+    }
+    case "GET_DATA_CHECKOUT_REJECTED": {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        data: [],
+        pageInfo: [],
         msg: action.payload.data.msg,
       };
     }
-    case "CREATE_CHECKOUT_REJECTED": {
+    case "POST_CHECKOUT_PENDING": {
+      return { ...state, isLoading: true, isError: false };
+    }
+    case "POST_CHECKOUT_FULFILLED": {
+      console.log(action.payload);
       return {
         ...state,
-        isError: true,
         isLoading: false,
-        data: [],
-        msg: action.payload.response.data.msg,
+        isError: false,
+      };
+    }
+    case "POST_CHECKOUT_REJECTED": {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        msg: action.payload.data.msg,
+      };
+    }
+    case "UPDATE_CHECKOUT_PENDING": {
+      return { ...state, isLoading: true, isError: false };
+    }
+    case "UPDATE_CHECKOUT_FULFILLED": {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+    }
+    case "UPDATE_CHECKOUT_REJECTED": {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        msg: action.payload.data.msg,
       };
     }
     default: {

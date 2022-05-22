@@ -7,12 +7,34 @@ const initialState = {
 };
 const product = (state = initialState, action) => {
   switch (action.type) {
+    case "GET_DATA_PRODUCT_ID_PENDING": {
+      return { ...state, isLoading: true, isError: false };
+    }
+    case "GET_DATA_PRODUCT_ID_FULFILLED": {
+      console.log(action.payload);
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+    }
+    case "GET_DATA_PRODUCT_ID_REJECTED": {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        data: [],
+        pageInfo: {},
+        msg: action.payload.response.data.msg,
+      };
+    }
     case "GET_DATA_PRODUCT_PENDING": {
       return {
         ...state,
         isLoading: true,
       };
     }
+
     case "GET_DATA_PRODUCT_FULFILLED": {
       return {
         ...state,
@@ -22,6 +44,7 @@ const product = (state = initialState, action) => {
         msg: action.payload.data.msg,
       };
     }
+
     case "GET_DATA_PRODUCT_REJECTED": {
       return {
         ...state,
@@ -53,7 +76,7 @@ const product = (state = initialState, action) => {
         isLoading: true,
         isError: false,
         data: [],
-        msg: action.payload.response.data.msg,
+        msg: action.payload,
       };
     }
     case "UPDATE_PRODUCT_PENDING": {

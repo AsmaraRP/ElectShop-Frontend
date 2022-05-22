@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import BarChart from "../../components/BarChart/index";
 import "./index.css";
+
 import shopwindow from "./../../assets/imgDashboard/shop-window 1.png";
 
 export default function Dashboard() {
@@ -88,9 +90,10 @@ export default function Dashboard() {
 
                 <div className="row">
                   <div class="col-sm-6">
-                    <p>Sale</p>
-                    <h5 className="fw-1 fw-bold">15</h5>
-                    <small>This week</small>
+                    <div className="App">
+                      {/* <BarChart chartData={chartData} /> */}
+                      {/* <BarChart /> */}
+                    </div>
                   </div>
                   <div class="col-sm-3">
                     <p>Sale</p>
