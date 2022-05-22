@@ -24,7 +24,7 @@ export default function ViewAll() {
   };
 
   const handleClickDetail = (id) => {
-    navigate("/detail", { state: { idProduct: id } });
+    navigate(`/detail/${id}`);
   };
 
   const product = useSelector((state) => state.product);
