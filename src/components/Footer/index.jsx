@@ -114,7 +114,7 @@ function Footer() {
           </div>
         </div>
       ) : (
-        ""
+        <div className="py-3"></div>
       )}
     </footer>
   );
