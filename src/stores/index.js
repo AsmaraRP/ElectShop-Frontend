@@ -10,7 +10,10 @@ const persistConfig = {
   storage,
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-let store = createStore(persistedReducer, applyMiddleware(promiseMiddleware, logger));
+let store = createStore(
+  persistedReducer,
+  applyMiddleware(promiseMiddleware, logger)
+);
 let persistor = persistStore(store);
 
 export default { store, persistor };

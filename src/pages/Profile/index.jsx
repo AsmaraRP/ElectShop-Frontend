@@ -5,25 +5,23 @@ import line from "../../assets/images/profile__line.png";
 import uploadIcon from "../../assets/images/profile__upload.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import Navbar from "../../components/Navbar";
-// import Footer from "../../components/Footer";
-// import { useNavigate } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-// import photoProfile from "../../assets/siluetprofil.png";
-// import { updateUser, getUserById, updatePasswod } from "../../stores/actions/user";
+// import { updateUser} from "../../stores/actions/user";
 
 function Profile() {
-  //   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
-  //   const handleNavigate = (nav) => {
-  //     navigate(`/${nav}`);
-  //   };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleNavigate = (nav) => {
+    navigate(`/${nav}`);
+  };
+  const user = useSelector((state) => state.user);
   const [gender, setGender] = useState(0);
   const [seePass, setSeePass] = useState(1);
+  const [imageForm, setImageForm] = useState({ image: null });
   const [selectedDate, setSelectedDate] = useState(null);
-  //   const user = useSelector((state) => state.user);
-  //   const idUser = localStorage.getItem("id");
+  console.log(user);
   const [formUser, setFormUser] = useState({
     name: "",
     address: "",
@@ -32,10 +30,13 @@ function Profile() {
     gender: gender,
     password: "",
   });
-  //   const [formPassword, setFormPassword] = useState({ newPassword: "", confirmPassword: "" });
   const handleChangeForm = (event) => {
     const { name, value } = event.target;
     setFormUser({ ...formUser, [name]: value });
+  };
+  const handleChangeImage = (event) => {
+    const { name, files } = event.target;
+    setImageForm({ [name]: files[0] });
   };
   //   const handleSubmitDetail = async (e) => {
   //     try {
@@ -47,23 +48,6 @@ function Profile() {
   //     } catch (error) {
   //       console.log(error.response);
   //     }
-  //   };
-  //   const handleSubmitPassword = async (e) => {
-  //     try {
-  //       e.preventDefault();
-  //       setFormPassword({ ...formPassword });
-  //       const sendDataPassword = { id: idUser, ...formPassword };
-  //       console.log(sendDataPassword);
-  //       await dispatch(updatePasswod(idUser, formPassword));
-  //     } catch (error) {
-  //       console.log(error.response);
-  //     }
-  //   };
-  //   const handleLogout = () => {
-  //     localStorage.removeItem("token");
-  //     localStorage.removeItem("refreshToken");
-  //     localStorage.removeItem("id");
-  //     navigate("/profile");
   //   };
   const handleGender = (e) => {
     e.preventDefault();
@@ -90,6 +74,7 @@ function Profile() {
             <img src={photo} className="profile__photoProfile" alt="" />
             <div className="profile__uploadIcon">
               <img src={uploadIcon} alt="" className="profile__uploadIcon" />
+              <input type="file" name="image" onChange={handleChangeImage} />
             </div>
           </div>
           <div className="profile__des">

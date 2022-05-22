@@ -4,8 +4,57 @@ import { Link } from "react-router-dom";
 import "./index.css";
 import ProductCard from "../../components/ProductCard";
 import FilterCategory from "../../components/FilterCategory";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getDataProduct } from "../../stores/actions/product";
+import { createCheckout } from "../../stores/actions/checkout";
 
 function Home() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [page] = useState(1);
+  const [limit] = useState(6);
+  const [searchType, setSearchType] = useState("");
+  const [searchName, setSearchName] = useState("Headphone");
+  const [sort] = useState("");
+  const [search, setSearch] = useState("");
+
+  const product = useSelector((state) => state.product);
+  useEffect(() => {
+    handleGetDataProduct();
+  }, []);
+
+  useEffect(() => {
+    handleGetDataProduct();
+  }, [searchType, searchName]);
+
+  const handleGetDataProduct = async () => {
+    await dispatch(getDataProduct(page, limit, searchType, searchName, sort));
+  };
+
+  const handleChangeSearch = (e) => {
+    setSearch(e.target.value);
+    if (e.key === "Enter") {
+      setSearchType(e.target.value);
+    }
+  };
+  const handleClickSearch = () => {
+    setSearchType(search);
+  };
+  const handleClickDetail = (id) => {
+    navigate("/detail", { state: { idProduct: id } });
+  };
+  const handleClickCategory = (category) => {
+    setSearchType("");
+    setSearchName(category);
+  };
+
+  const handleClickCheckout = async (id) => {
+    await dispatch(createCheckout({ productId: id }));
+  };
+
   return (
     <>
       <Navbar />
@@ -153,30 +202,37 @@ function Home() {
             By Electshop
           </h2>
           <div className="d-flex no-wrap justify-content-between align-items-center pt-3 pb-5">
-            <FilterCategory />
+            <FilterCategory handleClickCategory={handleClickCategory} />
             <div className="position-relative w-25">
               <input
                 type="text"
                 className="form-control py-2 d-none d-md-inline-block"
                 placeholder="Search"
+                onKeyPress={handleChangeSearch}
               />
-              <button className="home__search-button btn py-2 py-md-0 me-1 position-absolute end-0 top-50 translate-middle-y">
+              <button
+                className="home__search-button btn py-2 py-md-0 me-1 position-absolute end-0 top-50 translate-middle-y"
+                onClick={handleClickSearch}
+              >
                 <i className="bi bi-search text-primary"></i>
               </button>
             </div>
           </div>
           <div className="row row-cols-2 row-cols-md-3 gy-5 g-md-5 my-5">
-            <div className="col">
-              <ProductCard />
-            </div>
-            <div className="col">
-              <ProductCard />
-            </div>
-            <div className="col">
-              <ProductCard />
-            </div>
+            {product.data.map((item) => (
+              <div className="col" key={item.id}>
+                <ProductCard
+                  data={item}
+                  handleClickDetail={handleClickDetail}
+                  handleClickCheckout={handleClickCheckout}
+                />
+              </div>
+            ))}
           </div>
-          <Link to="#" className="btn btn-primary fw-semibold px-4 py-2 shadow">
+          <Link
+            to="/viewall"
+            className="btn btn-primary fw-semibold px-4 py-2 shadow"
+          >
             View All
           </Link>
         </div>
