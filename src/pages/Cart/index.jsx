@@ -1,16 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+// import Pagination from "react-paginate";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux"
+// import Pagination from "react-paginate";
 import ShopCard from "../../components/card";
+import {getCheckoutById} from "../../stores/actions/cart"
 
 function Cart() {
+  document.title = "Cart Page|| electshop";
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  // const [page, setPage] = useState(1);
   const handleNaviegateCheckout = () => {
     navigate("/payment");
   };
   const handleSelectAll = (event) => {
     console.log(event.target.checked);
   };
+
+  const limit = 5;
+  const cart = useSelector((state) => state.cart)
+  console.log(cart.data)
+  const searchUserId = "ab3c46b4-7ccd-4610-884b-77a5643f8717"
+
+  // const handlePagination = (data) => {
+  //   setPage(data.selected + 1);
+  // };
+
+  useEffect(() => {
+    getcheckoutById();
+  });
+
+  const getcheckoutById = async () => {
+    try {
+      // PanggilAction
+      const resultcheckout =await dispatch(getCheckoutById(1, limit, searchUserId))
+      console.log(resultcheckout)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   return (
     <div className="container pagePreview">
       <div className="cart__searchSortBar">
@@ -58,10 +89,6 @@ function Cart() {
             <div className="cart__productCard">
               <div className="cart__productCard--shopCard">
                 <ShopCard />
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
@@ -77,6 +104,17 @@ function Cart() {
             </div>
           </div>
         </div>
+        {/* <Pagination
+        className="pagination justify-content-center mt-4 page-item"
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={cart.pageInfo.totalPage}
+        onPageChange={handlePagination}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      /> */}
         <div className="cart__productPayment">
           <div className="cart__productPaymentBox">
             <h2 className="cart__productPaymentBox--total">Total</h2>

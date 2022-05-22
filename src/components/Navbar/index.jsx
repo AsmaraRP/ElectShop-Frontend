@@ -6,7 +6,7 @@ function Navbar() {
   const location = useLocation();
   const pathname = location.pathname;
   const dataUser = {
-    image: require("../../assets/images/profpic.jpeg"),
+    image: require("../../assets/images/Profile.png"),
   };
 
   return (
