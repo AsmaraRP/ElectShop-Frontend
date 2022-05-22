@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../stores/actions/register";
 
 function Register() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({});
+  let [isRegister, setIsRegister] = useState(false);
+
+  const handleChangeForm = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setIsRegister(true);
+    await dispatch(register(form));
+  };
+  const dataRegister = useSelector((state) => state.register);
+
+  const onClickLogin = () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmation = confirm(`${dataRegister.msg}`);
+    if (confirmation) {
+      navigate("/login");
+    }
+  };
+  console.log(isRegister);
+  if (!dataRegister.isLoading && isRegister) {
+    dataRegister.msg === "Bad request"
+      ? alert("Registration Failed")
+      : onClickLogin();
+    setIsRegister(false);
+  }
   return (
     <div className="container-lg">
       <div className="row vh-100">
@@ -10,11 +44,12 @@ function Register() {
           <button
             className="btn bg-primary bg-opacity-10 px-2 py-1 position-absolute top-0 start-0 ms-3 mt-3"
             style={{ bordeRadius: "10px" }}
+            onClick={() => navigate(-1)}
           >
             <i className="bi bi-chevron-left text-primary fw-bold fs-5"></i>
           </button>
           <div className="container px-lg-5 px-md-4 px-3">
-            <form>
+            <form onSubmit={handleRegister}>
               <h1 className="fw-bold">Welcome, Please Create an Account!</h1>
               <p className="opacity-75 fw-semibold mb-4">
                 Please fill in your name, email and password
@@ -30,6 +65,7 @@ function Register() {
                   placeholder="Your fullName address"
                   name="fullName"
                   aria-label="fullName"
+                  onChange={handleChangeForm}
                 />
               </div>
               <div className="input-group mb-3">
@@ -43,6 +79,7 @@ function Register() {
                   placeholder="Your email address"
                   name="email"
                   aria-label="email"
+                  onChange={handleChangeForm}
                 />
               </div>
               <div className="input-group mb-3">
@@ -56,10 +93,14 @@ function Register() {
                   placeholder="Your password"
                   name="password"
                   aria-label="password"
+                  onChange={handleChangeForm}
                 />
               </div>
               <div className="d-flex justify-content-end align-items-center">
-                <button className="btn btn-primary py-2 px-4 shadow">
+                <button
+                  className="btn btn-primary py-2 px-4 shadow"
+                  type="submit"
+                >
                   Register
                 </button>
               </div>
@@ -67,12 +108,7 @@ function Register() {
           </div>
         </div>
         <div className="col-7 p-3 d-none d-md-block">
-          <div className="login-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
-            <img
-              src={require("../../assets/images/register.png")}
-              className="w-100"
-              alt="login page illustration"
-            />
+          <div className="register-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
             <div className="card welcome-card p-4 border-0 mb-5 position-absolute bottom-0 start-50 translate-middle-x">
               <img
                 src={require("../../assets/images/logo.png")}

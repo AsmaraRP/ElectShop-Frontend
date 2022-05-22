@@ -4,3 +4,9 @@
   backdrop-filter: blur(32px);
   -webkit-backdrop-filter: blur(100px);
 }
+.login-img {
+  background-image: url("../../assets/images/login.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}

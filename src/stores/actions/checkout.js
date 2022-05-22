@@ -20,3 +20,9 @@ export const updateDataCheckout = (idCheckout, data) => {
     payload: axios.patch(`checkout/${idCheckout}`, data),
   };
 };
+export const createCheckout = (data) => {
+  return {
+    type: "CREATE_CHECKOUT",
+    payload: axios.post(`/checkout`, data),
+  };
+};

@@ -10,15 +10,13 @@ const checkout = (state = initialState, action) => {
     case "GET_DATA_CHECKOUT_PENDING": {
       return { ...state, isLoading: true, isError: false };
     }
+
     case "GET_DATA_CHECKOUT_FULFILLED": {
       console.log(action.payload);
       return {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload.data.data,
-        pageInfo: action.payload.data.pagination,
-        msg: action.payload.data.msg,
       };
     }
     case "GET_DATA_CHECKOUT_REJECTED": {

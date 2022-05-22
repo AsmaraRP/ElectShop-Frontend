@@ -1,0 +1,133 @@
+.search__group .btn {
+  padding: 20px;
+  margin-right: 10px;
+  margin-top: 20px;
+  border-radius: 10%;
+}
+
+.search__group .form-control {
+  border-radius: 4%;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+.imageList {
+  background-color: rgb(216, 211, 211);
+  padding: 10px;
+  border-radius: 15%;
+  width: 100px;
+}
+
+.manageList .badge {
+  margin: 20px 30px 33px 0px;
+  display: inline-block;
+}
+
+.manageList h6 {
+  display: none;
+}
+
+.manageList h5 {
+  color: black;
+}
+
+.manageList h4 {
+  color: blue;
+}
+
+.manageList .btn {
+  margin-left: 10px;
+  padding: 8px 35px;
+}
+
+.pagination {
+  margin: 20px auto;
+  display: flex;
+  list-style: none;
+  outline: none;
+  justify-content: center;
+}
+.pagination > .active > a {
+  background-color: #47ccde;
+  border-color: #47ccde;
+}
+.pagination > li > a {
+  /* border: 1px solid #5f2eea; */
+  padding: 15px 20px;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  margin: 4px;
+  background-color: none;
+}
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #5f2eea;
+  border-color: #5f2eea;
+  color: #d6d8e7;
+  outline: none;
+}
+.pagination > li > a,
+.pagination > li > span {
+  color: black;
+  text-decoration: none;
+  /* border: none; */
+}
+.pagination > li:first-child > a,
+.pagination > li:first-child > span,
+.pagination > li:last-child > a,
+.pagination > li:last-child > span {
+  border-radius: unset;
+}
+
+@media (max-width: 720px) {
+  .search__group .btn {
+    padding: 10px;
+    width: fit-content;
+    margin-right: 10px;
+    border-radius: 10%;
+  }
+
+  .search__group .col-md-9 {
+    width: 260px;
+  }
+
+  .manageList {
+    margin-right: 30px;
+  }
+
+  .manageList .container {
+    padding: 0px;
+  }
+  .manageList .imageList {
+    width: 60px;
+  }
+  .manageList .col-sm-2 {
+    padding: 0px;
+    width: 70px;
+  }
+  .manageList .col-sm-3 {
+    padding: 0px;
+    width: 100px;
+    height: 25px;
+  }
+  .manageList .badge {
+    display: none;
+  }
+  .manageList h5 {
+    font-size: 13px;
+  }
+
+  .manageList .align-self-end {
+    display: none;
+  }
+
+  .manageList h6 {
+    display: block;
+    color: blue;
+  }
+}
