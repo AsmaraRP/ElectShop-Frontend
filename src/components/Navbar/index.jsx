@@ -17,12 +17,10 @@ function Navbar() {
     dispatch(logout({ refreshToken }));
   };
 
-  console.log(process.env.REACT_APP_CLOUDINARY_BASE_LINK + dataUser.image);
-
   return (
     <nav
       className={`navbar navbar-expand-md navbar-light ${
-        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-transparent"
+        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-skyblue"
       } fixed-top text-center px-3 px-lg-0`}
     >
       <div className="container-lg">
@@ -38,7 +36,10 @@ function Navbar() {
             </span>
           </Link>
         ) : (
-          <button className="btn bg-lightblue" onClick={() => navigate(-1)}>
+          <button
+            className="btn bg-primary bg-opacity-10"
+            onClick={() => navigate(-1)}
+          >
             <i className="bi bi-chevron-left text-primary"></i>
           </button>
         )}
@@ -70,7 +71,7 @@ function Navbar() {
             </li>
             <hr className="my-1" />
             <li className="nav-item">
-              <Link to="/product" className="nav-link me-lg-5 me-md-4 me-0">
+              <Link to="/viewall" className="nav-link me-lg-5 me-md-4 me-0">
                 Product
               </Link>
             </li>
@@ -96,7 +97,7 @@ function Navbar() {
               Sign in
             </Link>
           ) : (
-            <div className="dropstart ms-5">
+            <div className="dropstart ms-auto">
               <button
                 className="bg-transparent border-0"
                 type="button"
@@ -108,8 +109,7 @@ function Navbar() {
                 <img
                   src={
                     pathname === "/"
-                      ? process.env.REACT_APP_CLOUDINARY_BASE_LINK +
-                        dataUser.image
+                      ? process.env.REACT_APP_CLOUDINARY + dataUser.image
                       : require("../../assets/images/logo.png")
                   }
                   alt={pathname === "/" ? "profile picture" : "logo"}
@@ -131,10 +131,7 @@ function Navbar() {
                   <div>
                     <li>
                       <img
-                        src={
-                          process.env.REACT_APP_CLOUDINARY_BASE_LINK +
-                          dataUser.image
-                        }
+                        src={process.env.REACT_APP_CLOUDINARY + dataUser.image}
                         alt="profpic"
                         className="px-2"
                         style={{
