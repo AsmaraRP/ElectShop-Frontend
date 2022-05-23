@@ -44,7 +44,7 @@ function Home() {
     setSearchType(search);
   };
   const handleClickDetail = (id) => {
-    navigate("/detail", { state: { idProduct: id } });
+    navigate(`/detail/${id}`, { state: { idProduct: id } });
   };
   const handleClickCategory = (category) => {
     setSearchType("");

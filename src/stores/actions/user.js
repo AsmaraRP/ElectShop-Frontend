@@ -6,7 +6,12 @@ export const getUserById = (id) => {
     payload: axios.get(`user/${id}`),
   };
 };
-
+export const updateUser = (id, form) => {
+  return {
+    type: "UPDATE_USER",
+    payload: axios.patch(`user/profile/${id}`, form),
+  };
+};
 export const logout = (refreshToken) => {
   return {
     type: "LOGOUT",

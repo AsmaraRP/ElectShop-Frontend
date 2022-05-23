@@ -2,26 +2,61 @@ import React, { useEffect, useState } from "react";
 import Pagination from "react-paginate";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import ShopCard from "../../components/card";
-import {getCheckoutById} from "../../stores/actions/cart"
+import { getCheckoutById, createTransaction } from "../../stores/actions/cart";
 
 function Cart() {
   document.title = "Cart Page|| electshop";
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const userId = localStorage.getItem("userId");
   const [page, setPage] = useState(1);
-  const userId = localStorage.getItem("userId")
-  const handleNaviegateCheckout = () => {
-    navigate("/payment");
+  const [selectedCard, setSelectedCard] = useState([]);
+  console.log(selectedCard);
+
+  useEffect(() => {
+    handleNaviegateCheckout();
+  }, []);
+
+  const handleNaviegateCheckout = async () => {
+    try {
+      const totalPayment = selectedCard.map(
+        (item) => item.price * item.productTotal
+      );
+      console.log(totalPayment);
+      const dataTransaction = {
+        checkoutId: selectedCard.id.join(","),
+        totalPayment,
+      };
+      console.log(dataTransaction);
+      // const transaction = await dispatch(createTransaction(dataTransaction))
+      // console.log(transaction)
+      // navigate("/payment");
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   const handleSelectAll = (event) => {
     console.log(event.target.checked);
   };
 
+  const handleSelectCheckout = (card) => {
+    console.log(card);
+    if (selectedCard.includes(card)) {
+      const deleteCard = selectedCard.filter((el) => {
+        return el !== card;
+      });
+      setSelectedCard(deleteCard);
+    } else {
+      setSelectedCard([...selectedCard, card]);
+    }
+  };
+  console.log(selectedCard);
+
   const limit = 5;
-  const cart = useSelector((state) => state.cart)
-  console.log(cart.data)
+  const cart = useSelector((state) => state.cart);
+  console.log(cart.data);
 
   const handlePagination = (data) => {
     setPage(data.selected + 1);
@@ -29,13 +64,15 @@ function Cart() {
 
   useEffect(() => {
     getcheckoutById();
-  }, []);
+  }, [page]);
 
   const getcheckoutById = async () => {
     try {
       // PanggilAction
-      const resultcheckout = await dispatch(getCheckoutById(page, limit, userId))
-      console.log(resultcheckout)
+      const resultcheckout = await dispatch(
+        getCheckoutById(page, limit, userId)
+      );
+      console.log(resultcheckout);
     } catch (error) {
       console.log(error.response);
     }
@@ -86,9 +123,17 @@ function Cart() {
           </div>
           <div className="cart__product">
             <div className="cart__productCard">
-              <div className="cart__productCard--shopCard" onClick={() => getcheckoutById()}>
-                { cart.data.map((item) => (
-                    <ShopCard data={item} key={item.id}/>
+              <div
+                className="cart__productCard--shopCard"
+                onClick={() => getcheckoutById()}
+              >
+                {cart.data.map((item) => (
+                  <ShopCard
+                    data={item}
+                    key={item.id}
+                    selectedCard={handleSelectCheckout}
+                    selected={selectedCard}
+                  />
                 ))}
               </div>
               <div className="cart__product--totalProduct1">
@@ -134,6 +179,7 @@ function Cart() {
             <button
               className="cart__productPaymentBox--checkout"
               onClick={handleNaviegateCheckout}
+              selected={selectedCard}
             >
               {" "}
               CheckOut
