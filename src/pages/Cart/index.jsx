@@ -14,7 +14,7 @@ function Cart() {
   const userId = localStorage.getItem("userId");
   const [page, setPage] = useState(1);
   const [selectedCard, setSelectedCard] = useState([]);
-  const [totalPayment, setTotalPayment] = useState(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
+  const [totalPayment, setTotalPayment] = useState(0);
   const [data, setData] = useState({
     addresDelivery: "",
     review: null,
@@ -22,19 +22,22 @@ function Cart() {
     statusCart: "notActive",
   });
   // const totalPayment = selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0);
-  console.log(totalPayment);
   const checkoutId = selectedCard.map((item) => item.id).join(",");
   console.log(checkoutId);
 
+  const getTotalPayment = () => {
+    setTotalPayment(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
+    console.log(totalPayment);
+  };
   // useEffect(() => {
   //   handleNaviegateCheckout();
   // }, []);
 
   useEffect(() => {
-    setTotalPayment(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
+    getTotalPayment();
   }, [selectedCard]);
   useEffect(() => {
-    setTotalPayment(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
+    getTotalPayment();
   }, [selectedCard.productTotal]);
 
   const handleNaviegateCheckout = async () => {

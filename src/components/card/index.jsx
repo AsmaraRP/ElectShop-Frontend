@@ -16,14 +16,19 @@ function ShopCard(props) {
   useEffect(() => {
     updateProductTotalCheckout();
   }, [data]);
+  useEffect(() => {
+    updateProductTotalCheckout();
+  }, []);
+  useEffect(() => {
+    updateProductTotalCheckout();
+  }, [count]);
 
   console.log(data);
   const updateProductTotalCheckout = async () => {
     try {
       // PanggilAction
       // const productTotal = count;
-      const updatecheckout = await dispatch(updateCheckout(id, data));
-      console.log(updatecheckout);
+      await dispatch(updateCheckout(id, data));
     } catch (error) {
       console.log(error.response);
     }
