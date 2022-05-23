@@ -14,6 +14,10 @@ function Cart() {
   const [page, setPage] = useState(1);
   const [selectedCard, setSelectedCard] = useState([]);
   console.log(selectedCard)
+  const totalPayment = selectedCard.map((item) => item.price*item.productTotal).reduce((partialSum, a) => partialSum + a, 0);
+  console.log(totalPayment)
+  const checkoutId = selectedCard.map((item) => item.id).join(",")
+  console.log(checkoutId)
 
   useEffect(() => {
     handleNaviegateCheckout();
@@ -21,11 +25,9 @@ function Cart() {
 
   const handleNaviegateCheckout = async() => {
     try{
-      const totalPayment = selectedCard.map((item) => item.price*item.productTotal);
-      console.log(totalPayment)
       const dataTransaction = { 
-        checkoutId: selectedCard.id.join(","),
-        totalPayment,
+        checkoutId, 
+        totalPrice: totalPayment,
       }
       console.log(dataTransaction)
       // const transaction = await dispatch(createTransaction(dataTransaction))
@@ -120,18 +122,18 @@ function Cart() {
           <div className="cart__product">
             <div className="cart__productCard">
               <div className="cart__productCard--shopCard" onClick={() => getcheckoutById()}>
-                { cart.data.map((item) => (
+                { cart? cart.data.map((item) => (
                     <ShopCard data={item} key={item.id} 
                     selectedCard={handleSelectCheckout}
                     selected = {selectedCard}/>
-                ))}
+                )): ""}
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
                 <h1 className="cart__product--totalPrice1">$6000</h1>
                 <button
                   className="cart__productPaymentBox--checkout"
-                  onClick={handleNaviegateCheckout}
+                  onClick={(item)=>handleNaviegateCheckout(item)}
                 >
                   {" "}
                   CheckOut
@@ -145,7 +147,7 @@ function Cart() {
             <h2 className="cart__productPaymentBox--total">Total</h2>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Item Price</h4>
-              <h4 className="cart__ProductPaymentBox--nominal">$200</h4>
+              <h4 className="cart__ProductPaymentBox--nominal">Rp. {totalPayment}</h4>
             </div>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Discount</h4>
@@ -163,12 +165,12 @@ function Cart() {
                 className="cart__ProductPaymentBox--nominal"
                 style={{ fontSize: "20px", fontWeight: "bold" }}
               >
-                $200
+                Rp. {totalPayment}
               </h4>
             </div>
             <button
               className="cart__productPaymentBox--checkout"
-              onClick={handleNaviegateCheckout}
+              onClick={(item)=>handleNaviegateCheckout(item)}
               selected={selectedCard}
             >
               {" "}
