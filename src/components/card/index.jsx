@@ -1,20 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./index.css";
+import {useDispatch} from "react-redux"
+import {updateCheckout, deleteCheckout} from "../../stores/actions/cart"
 
 function ShopCard(props) {
-  const { id, image, name, price, stock, type } = props.data[0].data[0];
+  const { id, image, name, price, productId, productTotal, type } = props.data;
   console.log(image.split(",")[0]);
 
-  const [count, setCount] = useState(0);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    updateProductTotalCheckout();
+  }, []);
+
+  const updateProductTotalCheckout = async () => {
+    try {
+      // PanggilAction
+      const productTotalUpdate = productTotal + count
+      const updatecheckout = await dispatch(updateCheckout(id, {productTotal: productTotalUpdate}))
+      console.log(updatecheckout)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  let count
   const increaseCounters = () => {
     console.log("Increase Counter");
-    setCount(count + 1);
+    count = 1
+    updateProductTotalCheckout();
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
-    setCount(count - 1);
+    count = -1
+    updateProductTotalCheckout();
   };
+
+  const handleNaviegateDetail = () => {
+    navigate(`/detail/${productId}`);
+  };
+
+  const deletecheckout = async () => {
+    try {
+      // PanggilAction
+      const deletecheckout = await dispatch(deleteCheckout(id))
+      console.log(deletecheckout)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const handleDelete = () => {
+    deletecheckout()
+  }
+
   return (
     <div className="shopCard">
       <div className="shopCard__checkBox">
@@ -37,12 +78,12 @@ function ShopCard(props) {
         />
       </div>
       <div className="shopCard__desc">
-        <h3 className="shopCard__desc--title">{type}</h3>
+        <h3 className="shopCard__desc--title" onClick={()=> handleNaviegateDetail()}>{type}</h3>
         <p className="shopCard__desc--type">{name}</p>
-        <h3 className="shopCard__desc--price">{price * count}</h3>
+        <h3 className="shopCard__desc--price">{price * productTotal}</h3>
       </div>
       <div className="shopCard__counter">
-        <button className="shopCard__counter--delete">
+        <button onClick={handleDelete} className="shopCard__counter--delete">
           <img src={require("../../assets/images/delete.png")} alt="delete" />
         </button>
         <div className="shopCard__counter--boxCount">
@@ -52,7 +93,7 @@ function ShopCard(props) {
           >
             +
           </button>
-          <p className="shopCard__counter--counterText">{count}</p>
+          <p className="shopCard__counter--counterText">{productTotal}</p>
           <button
             onClick={decreaseCounters}
             className="shopCard__counter--boxCount--count"
