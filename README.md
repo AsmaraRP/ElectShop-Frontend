@@ -1,4 +1,4 @@
-# Electshop Project
+# Electshop Project (FRONT-END)
 
 ![electshop motto](https://user-images.githubusercontent.com/95269946/169771744-74b70bbb-1281-4f4b-8266-0f51edb1ab7b.png)
 
