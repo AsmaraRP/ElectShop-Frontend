@@ -6,57 +6,64 @@ import { updateCheckout, deleteCheckout } from "../../stores/actions/cart";
 
 function ShopCard(props) {
   const { id, image, name, price, productId, productTotal, type } = props.data;
-  const {selectedCard, selected} = props
-
+  const { selectedCard, selected } = props;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [count, setCount] = useState(productTotal);
+  const [data, setData] = useState({ productTotal: count });
 
   useEffect(() => {
     updateProductTotalCheckout();
-  }, []);
+  }, [data]);
 
+  console.log(data);
   const updateProductTotalCheckout = async () => {
     try {
       // PanggilAction
-      const productTotalUpdate = productTotal + count;
-      const updatecheckout = await dispatch(
-        updateCheckout(id, { productTotal: productTotalUpdate })
-      );
+      // const productTotal = count;
+      const updatecheckout = await dispatch(updateCheckout(id, data));
       console.log(updatecheckout);
     } catch (error) {
       console.log(error.response);
     }
   };
 
-  let count;
   const increaseCounters = () => {
     console.log("Increase Counter");
-    count = 1;
-    updateProductTotalCheckout();
+    setCount(count + 1);
+    setData({ ...data, productTotal: count + 1 });
+    // props.setTotalPrice(price * (count + 1));
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
-    count = -1;
-    updateProductTotalCheckout();
+    setCount(count - 1);
+    setData({ ...data, productTotal: count - 1 });
+    // props.setTotalPrice(price * (count - 1));
   };
+  // let count;
+  // const increaseCounters = () => {
+  //   console.log("Increase Counter");
+  //   count = 1;
+  //   updateProductTotalCheckout();
+  // };
+  // const decreaseCounters = () => {
+  //   console.log("Decrease Counter");
+  //   count = -1;
+  //   updateProductTotalCheckout();
+  // };
 
   const handleNaviegateDetail = () => {
     navigate(`/detail/${productId}`);
   };
 
-  const deletecheckout = async () => {
+  const handleDelete = async () => {
     try {
       // PanggilAction
-      const deletecheckout = await dispatch(deleteCheckout(id));
-      console.log(deletecheckout);
+      await dispatch(deleteCheckout(id));
     } catch (error) {
       console.log(error.response);
     }
-  };
-
-  const handleDelete = () => {
-    deletecheckout();
   };
 
   return (
@@ -67,8 +74,12 @@ function ShopCard(props) {
             className="form-check-input shopCard__check"
             type="checkbox"
             value="check"
-            id={`${selected.includes(id)? "flexCheckChecked" : "flexCheckDefault"}`}
-            onClick={() => {selectedCard({id, price, productTotal})}}
+            id={`${
+              selected.includes(id) ? "flexCheckChecked" : "flexCheckDefault"
+            }`}
+            onChange={() => {
+              selectedCard({ id, price, productTotal });
+            }}
           />
         </div>
       </div>
@@ -94,7 +105,10 @@ function ShopCard(props) {
         <h3 className="shopCard__desc--price">{price * productTotal}</h3>
       </div>
       <div className="shopCard__counter">
-        <button onClick={handleDelete} className="shopCard__counter--delete">
+        <button
+          onClick={() => handleDelete()}
+          className="shopCard__counter--delete"
+        >
           <img src={require("../../assets/images/delete.png")} alt="delete" />
         </button>
         <div className="shopCard__counter--boxCount">
@@ -104,7 +118,7 @@ function ShopCard(props) {
           >
             +
           </button>
-          <p className="shopCard__counter--counterText">{productTotal}</p>
+          <p className="shopCard__counter--counterText">{count}</p>
           <button
             onClick={decreaseCounters}
             className="shopCard__counter--boxCount--count"
