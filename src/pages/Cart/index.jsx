@@ -14,15 +14,14 @@ function Cart() {
   const userId = localStorage.getItem("userId");
   const [page, setPage] = useState(1);
   const [selectedCard, setSelectedCard] = useState([]);
-  console.log(selectedCard);
-  const [totalPayment, setTotalPayment] = useState(0);
+  const [totalPayment, setTotalPayment] = useState(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
   const [data, setData] = useState({
     addresDelivery: "",
     review: null,
     rating: null,
     statusCart: "notActive",
   });
-
+  // const totalPayment = selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0);
   console.log(totalPayment);
   const checkoutId = selectedCard.map((item) => item.id).join(",");
   console.log(checkoutId);
@@ -32,12 +31,11 @@ function Cart() {
   // }, []);
 
   useEffect(() => {
-    setTotalPayment(
-      selectedCard
-        .map((item) => item.price * item.productTotal)
-        .reduce((partialSum, a) => partialSum + a, 0)
-    );
+    setTotalPayment(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
   }, [selectedCard]);
+  useEffect(() => {
+    setTotalPayment(selectedCard.map((item) => item.price * item.productTotal).reduce((partialSum, a) => partialSum + a, 0));
+  }, [selectedCard.productTotal]);
 
   const handleNaviegateCheckout = async () => {
     try {
@@ -60,26 +58,20 @@ function Cart() {
   const handleSelectAll = (event) => {
     console.log(event.target.checked);
   };
-  const handleSelectCheckout = (card) => {
-    console.log(card.id);
-    selectedCard.map((item) => {
-      if (item.id === card.id) {
-        // setSelectedCard([{ id: "", price: "", productTotal: "" }]);
-        const index = selectedCard.findIndex((el) => el.id === item.id);
-        setSelectedCard(selectedCard.splice(index, 1));
-      }
-    });
-    setSelectedCard([...selectedCard, card]);
-
-    // if (selectedCard.includes(card.id)) {
-    //   console.log("berhasil");
-    //   const deleteCard = selectedCard.filter((el) => {
-    //     return el !== card;
-    //   });
-    //   setSelectedCard(deleteCard);
-    // } else {
-    //   setSelectedCard([...selectedCard, card]);
-    // }
+  const handleSelectCheckout = async (card) => {
+    try {
+      await selectedCard.map((item) => {
+        if (item.id === card.id) {
+          const selectData = selectedCard.filter((item) => item.id !== card.id);
+          setSelectedCard(selectData);
+          console.log(selectedCard);
+          throw TypeError("deleting data");
+        }
+      });
+      setSelectedCard([...selectedCard, card]);
+    } catch (error) {
+      console.log(error);
+    }
   };
   console.log(selectedCard);
 
@@ -98,9 +90,7 @@ function Cart() {
   const getcheckoutById = async () => {
     try {
       // PanggilAction
-      const resultcheckout = await dispatch(
-        getCheckoutById(page, limit, userId)
-      );
+      const resultcheckout = await dispatch(getCheckoutById(page, limit, userId));
       console.log(resultcheckout);
     } catch (error) {
       console.log(error.response);
@@ -111,17 +101,9 @@ function Cart() {
     <div className="container pagePreview">
       <div className="cart__searchSortBar">
         <div className="cart__search">
-          <input
-            type="search"
-            placeholder="Tap To Search For Something"
-            className="cart__searchbar"
-          />
+          <input type="search" placeholder="Tap To Search For Something" className="cart__searchbar" />
           <button className="cart__searchButton">
-            <img
-              src={require("../../assets/images/Search.png")}
-              alt="searchBar"
-              className="cart__searchButton--image"
-            />
+            <img src={require("../../assets/images/Search.png")} alt="searchBar" className="cart__searchButton--image" />
           </button>
         </div>
         <button className="cart__profileButton">
@@ -136,44 +118,20 @@ function Cart() {
       <div className="cart__flexBox">
         <div className="cart__flexBox--1">
           <div className="form-check">
-            <input
-              className="form-check-input cart__boxSelectAll"
-              type="checkbox"
-              value="check"
-              id="flexCheckChecked"
-              onClick={handleSelectAll}
-            />
-            <label
-              className="form-check-label cart__selectAll"
-              htmlFor="flexCheckChecked"
-            >
+            <input className="form-check-input cart__boxSelectAll" type="checkbox" value="check" id="flexCheckChecked" onClick={handleSelectAll} />
+            <label className="form-check-label cart__selectAll" htmlFor="flexCheckChecked">
               <h2>Select All</h2>
             </label>
           </div>
           <div className="cart__product">
             <div className="cart__productCard">
-              <div
-                className="cart__productCard--shopCard"
-                onClick={() => getcheckoutById()}
-              >
-                {cart
-                  ? cart.data.map((item) => (
-                      <ShopCard
-                        data={item}
-                        key={item.id}
-                        selectedCard={(card) => handleSelectCheckout(card)}
-                        selected={selectedCard}
-                      />
-                    ))
-                  : ""}
+              <div className="cart__productCard--shopCard" onClick={() => getcheckoutById()}>
+                {cart ? cart.data.map((item) => <ShopCard data={item} key={item.id} selectedCard={(card) => handleSelectCheckout(card)} selected={selectedCard} />) : ""}
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
                 <h1 className="cart__product--totalPrice1">$6000</h1>
-                <button
-                  className="cart__productPaymentBox--checkout"
-                  onClick={(item) => handleNaviegateCheckout(item)}
-                >
+                <button className="cart__productPaymentBox--checkout" onClick={(item) => handleNaviegateCheckout(item)}>
                   {" "}
                   CheckOut
                 </button>
@@ -186,9 +144,7 @@ function Cart() {
             <h2 className="cart__productPaymentBox--total">Total</h2>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Item Price</h4>
-              <h4 className="cart__ProductPaymentBox--nominal">
-                Rp. {totalPayment}
-              </h4>
+              <h4 className="cart__ProductPaymentBox--nominal">Rp. {totalPayment}</h4>
             </div>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Discount</h4>
@@ -196,24 +152,14 @@ function Cart() {
             </div>
             <hr />
             <div className="cart__ProductPaymentBox--price">
-              <h4
-                className="cart__ProductPaymentBox--item"
-                style={{ fontSize: "20px" }}
-              >
+              <h4 className="cart__ProductPaymentBox--item" style={{ fontSize: "20px" }}>
                 Bill
               </h4>
-              <h4
-                className="cart__ProductPaymentBox--nominal"
-                style={{ fontSize: "20px", fontWeight: "bold" }}
-              >
+              <h4 className="cart__ProductPaymentBox--nominal" style={{ fontSize: "20px", fontWeight: "bold" }}>
                 Rp. {totalPayment}
               </h4>
             </div>
-            <button
-              className="cart__productPaymentBox--checkout"
-              onClick={(item) => handleNaviegateCheckout(item)}
-              selected={selectedCard}
-            >
+            <button className="cart__productPaymentBox--checkout" onClick={(item) => handleNaviegateCheckout(item)} selected={selectedCard}>
               {" "}
               CheckOut
             </button>

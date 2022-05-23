@@ -74,9 +74,7 @@ function ShopCard(props) {
             className="form-check-input shopCard__check"
             type="checkbox"
             value="check"
-            id={`${
-              selected.includes(id) ? "flexCheckChecked" : "flexCheckDefault"
-            }`}
+            id={`${selected.includes(id) ? "flexCheckChecked" : "flexCheckDefault"}`}
             onChange={() => {
               selectedCard({ id, price, productTotal });
             }}
@@ -84,45 +82,25 @@ function ShopCard(props) {
         </div>
       </div>
       <div className="shopCard__image">
-        <img
-          src={
-            image
-              ? `${process.env.REACT_APP_CLOUDINARY}${image.split(",")[0]}`
-              : null
-          }
-          alt="headphone"
-          className="shopCard__image--picture"
-        />
+        <img src={image ? `${process.env.REACT_APP_CLOUDINARY}${image.split(",")[0]}` : null} alt="headphone" className="shopCard__image--picture" />
       </div>
       <div className="shopCard__desc">
-        <h3
-          className="shopCard__desc--title"
-          onClick={() => handleNaviegateDetail()}
-        >
+        <h3 className="shopCard__desc--title" onClick={() => handleNaviegateDetail()}>
           {type}
         </h3>
         <p className="shopCard__desc--type">{name}</p>
         <h3 className="shopCard__desc--price">{price * productTotal}</h3>
       </div>
       <div className="shopCard__counter">
-        <button
-          onClick={() => handleDelete()}
-          className="shopCard__counter--delete"
-        >
+        <button onClick={() => handleDelete()} className="shopCard__counter--delete">
           <img src={require("../../assets/images/delete.png")} alt="delete" />
         </button>
         <div className="shopCard__counter--boxCount">
-          <button
-            onClick={increaseCounters}
-            className="shopCard__counter--boxCount--count"
-          >
+          <button onClick={increaseCounters} className="shopCard__counter--boxCount--count">
             +
           </button>
           <p className="shopCard__counter--counterText">{count}</p>
-          <button
-            onClick={decreaseCounters}
-            className="shopCard__counter--boxCount--count"
-          >
+          <button onClick={decreaseCounters} className="shopCard__counter--boxCount--count">
             -
           </button>
         </div>
