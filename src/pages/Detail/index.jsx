@@ -26,6 +26,7 @@ function Detail() {
   const [dataIdCheckout, setDataIdCheckout] = useState([]);
   const [image, setImage] = useState("");
   const productId = params.id;
+  const [openPageFromHistory, setOpenPageFromHistory] = useState(true);
 
   const [data, setData] = useState({
     productId: params.id,
@@ -167,6 +168,10 @@ function Detail() {
   const handleCart = () => {
     navigate("/cart");
   };
+  if (state.review && openPageFromHistory) {
+    setOpenPageFromHistory(false);
+    setIsReview(true);
+  }
   return (
     <div>
       <Navbar />

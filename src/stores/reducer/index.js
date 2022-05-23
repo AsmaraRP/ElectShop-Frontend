@@ -5,6 +5,7 @@ import cart from "./cart";
 import user from "./user";
 import checkout from "./checkout";
 import transaction from "./transaction";
+import history from "./history";
 
 export default combineReducers({
   product,
@@ -13,4 +14,5 @@ export default combineReducers({
   user,
   checkout,
   transaction,
+  history,
 });
