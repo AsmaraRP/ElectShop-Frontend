@@ -126,8 +126,8 @@ function Login() {
           </div>
         </div>
         <div className="col-7 p-3 d-none d-md-block">
-          <div className="login-img card bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
-            <div className="card welcome-card p-4 border-0 mb-5 position-absolute bottom-0 start-50 translate-middle-x">
+          <div className="login-img card m-0 bg-secondary h-100 d-flex justify-content-end align-items-center position-relative">
+            <div className="card welcome-card m-0 p-4 border-0 mb-5 position-absolute bottom-0 start-50 translate-middle-x">
               <img
                 src={require("../../assets/images/logo.png")}
                 className="align-self-start mb-3"
