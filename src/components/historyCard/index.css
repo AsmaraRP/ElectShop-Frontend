@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@100&family=Mulish:wght@200;600;700&family=Nunito:wght@300&display=swap");
+* {
+  font-family: "Nunito", sans-serif;
+}
+.historyCard {
+  padding: 20px 20px;
+  display: flex;
+  border: solid gainsboro 1px;
+  border-radius: 12px;
+  box-shadow: 20px 20px 20px gainsboro;
+  margin-bottom: 40px;
+}
+.historyCard__checkBox {
+  justify-content: center;
+  flex: 1;
+}
+.historyCard__image {
+  flex: 1;
+}
+.historyCard__image--picture {
+  width: 100%;
+}
+.historyCard__desc {
+  flex: 3;
+  padding: 0 50px;
+}
+.historyCard__desc--title {
+  font-weight: bold;
+}
+.historyCard__desc--type {
+  font-weight: bold;
+  border: none;
+  background-color: #0300ad;
+  border-radius: 5px;
+  width: fit-content;
+  padding: 0 5px;
+  color: white;
+}
+.historyCard__desc--price {
+  font-weight: bold;
+  color: #0300ad;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: none;
+}
+.historyCard__counter {
+  flex: 1.5;
+
+  height: fit-content;
+}
+.historyCard__counter--boxCount {
+  padding: 5px 20px;
+}
+.historyCard__counter--details {
+  margin-right: 20px;
+  border: solid #0300ad;
+  padding: 10px 20px;
+  background-color: white;
+  border-radius: 12px;
+}
+.historyCard__counter--details:hover {
+  border: solid #0300ad;
+  padding: 10px 20px;
+  background-color: #0300ad;
+  border-radius: 12px;
+  color: white;
+}
+@media (max-width: 575.98px) {
+  .historyCard {
+    padding: 20px 20px;
+    display: flex;
+    border: solid gainsboro 1px;
+    border-radius: 12px;
+    box-shadow: 20px 20px 20px gainsboro;
+    margin-bottom: 40px;
+  }
+  .historyCard__checkBox {
+    justify-content: center;
+    flex: 1;
+  }
+  .historyCard__image {
+    flex: 1;
+  }
+  .historyCard__image--picture {
+    width: 80px;
+  }
+  .historyCard__desc {
+    flex: 1;
+    padding: 0 50px;
+  }
+  .historyCard__desc--title {
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .historyCard__desc--type {
+    font-weight: bold;
+    border: none;
+    background-color: #0300ad;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 0 5px;
+    color: white;
+    display: none;
+  }
+  .historyCard__desc--item {
+    display: none;
+  }
+  .historyCard__desc--price {
+    font-weight: bold;
+    color: #0300ad;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    display: block;
+  }
+  .historyCard__counter {
+    flex: 1.5;
+
+    height: fit-content;
+  }
+  .historyCard__counter--boxCount {
+    display: flex;
+    padding: 5px 10px;
+  }
+  .historyCard__counter--total {
+    display: none;
+  }
+  .historyCard__counter--details {
+    margin-right: 5px;
+    border: solid #0300ad;
+    padding: 5px 10px;
+    background-color: white;
+    border-radius: 12px;
+    font-size: 10px;
+    width: fit-content;
+  }
+  .historyCard__counter--details:hover {
+    border: solid #0300ad;
+    padding: 5px 10px;
+    background-color: #0300ad;
+    border-radius: 12px;
+    color: white;
+  }
+}

@@ -1,0 +1,12 @@
+.welcome-card {
+  width: 80%;
+  background-color: rgba(3, 0, 173, 0.2);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(100px);
+}
+.register-img {
+  background-image: url("../../assets/images/register.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}

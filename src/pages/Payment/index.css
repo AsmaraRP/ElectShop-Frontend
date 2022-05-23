@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@100&family=Mulish:wght@200;600;700&family=Nunito:wght@300&display=swap");
+* {
+  font-family: "Nunito", sans-serif;
+  font-weight: bold;
+}
+.pagePreviews {
+  padding: 0 2%;
+}
+.payment__header {
+  margin-bottom: 12px;
+}
+.cart__product {
+  display: flex;
+}
+.cart__productCard {
+  flex: 2;
+}
+.cart__productCard--adress {
+  border: solid gainsboro 1px;
+  border-radius: 12px;
+  box-shadow: 20px 20px 20px gainsboro;
+  margin-bottom: 100px;
+  padding: 20px 20px;
+}
+
+.cart__productCard--adress__button {
+  border: solid #0300ad;
+  background-color: white;
+  padding: 10px;
+  width: 200px;
+  border-radius: 12px;
+  color: #0300ad;
+}
+.payment__priceBox {
+  flex: 1;
+  padding: 0 0 0 20px;
+}
+.payment__priceBox__total {
+  border: solid gainsboro 1px;
+  box-shadow: 20px 20px 20px gainsboro;
+  width: 100%;
+  border-radius: 12px;
+  padding: 20px;
+}
+.payment__priceBox__total__total {
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: 15px;
+}
+.payment__priceBox__flex {
+  display: flex;
+  margin-bottom: 15px;
+}
+.payment__priceBox__flex--item {
+  flex: 1;
+  font-size: 17px;
+}
+.payment__priceBox__flex--price {
+  font-size: 17px;
+}
+.payment__payBillsButton {
+  color: white;
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  border: none;
+  background-color: #0300ad;
+  border-radius: 6px;
+  padding: 4px;
+}
+.payment__paymentButton {
+  color: white;
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  border: none;
+  background-color: #0300ad;
+  border-radius: 6px;
+  padding: 4px;
+}
+.payment__priceBoxs {
+  display: none;
+}
+@media (max-width: 575.98px) {
+  .pagePreview {
+    padding: 0 0px;
+  }
+  .payment__priceBox {
+    flex: 1;
+    padding: 0 0 0 20px;
+    display: none;
+  }
+  .payment__priceBoxs {
+    display: inline;
+  }
+}
