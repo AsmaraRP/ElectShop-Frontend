@@ -16,7 +16,7 @@ export const updateCheckout = (id, form) => {
   };
 };
 
-export const deleteMovie = (id) => {
+export const deleteCheckout = (id) => {
   return {
     type: "DELETE_DATA_CART",
     payload: axios.delete(`checkout/${id}`),

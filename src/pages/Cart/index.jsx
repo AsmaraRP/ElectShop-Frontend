@@ -11,6 +11,7 @@ function Cart() {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const [page, setPage] = useState(1);
+  const userId = localStorage.getItem("userId")
   const handleNaviegateCheckout = () => {
     navigate("/payment");
   };
@@ -21,7 +22,6 @@ function Cart() {
   const limit = 5;
   const cart = useSelector((state) => state.cart)
   console.log(cart.data)
-  const searchUserId = "ab3c46b4-7ccd-4610-884b-77a5643f8717"
 
   const handlePagination = (data) => {
     setPage(data.selected + 1);
@@ -29,12 +29,12 @@ function Cart() {
 
   useEffect(() => {
     getcheckoutById();
-  }, [page]);
+  }, []);
 
   const getcheckoutById = async () => {
     try {
       // PanggilAction
-      const resultcheckout =await dispatch(getCheckoutById(page, limit, searchUserId))
+      const resultcheckout = await dispatch(getCheckoutById(page, limit, userId))
       console.log(resultcheckout)
     } catch (error) {
       console.log(error.response);
@@ -86,10 +86,10 @@ function Cart() {
           </div>
           <div className="cart__product">
             <div className="cart__productCard">
-              <div className="cart__productCard--shopCard">
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
+              <div className="cart__productCard--shopCard" onClick={() => getcheckoutById()}>
+                { cart.data.map((item) => (
+                    <ShopCard data={item} key={item.id}/>
+                ))}
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
@@ -105,17 +105,6 @@ function Cart() {
             </div>
           </div>
         </div>
-        <Pagination
-        className="pagination justify-content-center mt-4 page-item"
-        previousLabel={"Previous"}
-        nextLabel={"Next"}
-        breakLabel={"..."}
-        pageCount={cart.pageInfo.totalPage}
-        onPageChange={handlePagination}
-        containerClassName={"pagination"}
-        subContainerClassName={"pages pagination"}
-        activeClassName={"active"}
-      />
         <div className="cart__productPayment">
           <div className="cart__productPaymentBox">
             <h2 className="cart__productPaymentBox--total">Total</h2>
@@ -125,7 +114,7 @@ function Cart() {
             </div>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Discount</h4>
-              <h4 className="cart__ProductPaymentBox--nominal">$200</h4>
+              <h4 className="cart__ProductPaymentBox--nominal">Rp. 0</h4>
             </div>
             <hr />
             <div className="cart__ProductPaymentBox--price">
@@ -152,6 +141,17 @@ function Cart() {
           </div>
         </div>
       </div>
+      <Pagination
+        className="pagination justify-content-center mt-4 page-item"
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={cart.pageInfo.totalPage}
+        onPageChange={handlePagination}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      />
     </div>
   );
 }

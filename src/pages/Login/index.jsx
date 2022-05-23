@@ -27,6 +27,7 @@ function Login() {
       dispatch(getUserById(resultLogin.data.data.id));
       localStorage.setItem("token", resultLogin.data.data.token);
       localStorage.setItem("refreshToken", resultLogin.data.data.refreshToken);
+      localStorage.setItem("userId", resultLogin.data.data.id);
       setTimeout(() => {
         navigate("/");
       }, 1000);
