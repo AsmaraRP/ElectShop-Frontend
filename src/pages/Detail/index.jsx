@@ -19,7 +19,7 @@ function Detail() {
   const [notes, setNotes] = useState("");
   const navigate = useNavigate();
   const [isNotes, setIsNotes] = useState(false);
-  const [item, setItem] = useState(0);
+  const [item, setItem] = useState(1);
   const [rating, setRating] = useState("");
   const [isReview, setIsReview] = useState(false);
   const [idCheckout, setIdCheckout] = useState("");

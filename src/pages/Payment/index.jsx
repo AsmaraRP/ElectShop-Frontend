@@ -12,6 +12,8 @@ import ShopCard from "../../components/card";
 import { updateDataCheckout } from "../../stores/actions/checkout";
 import { createTransaction } from "../../stores/actions/transaction";
 import { getDataProductId } from "../../stores/actions/product";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 function Payment() {
   const { state } = useLocation();
@@ -63,36 +65,78 @@ function Payment() {
   };
 
   return (
-    <div className="container pagePreviews">
-      <h1 className="payment__header"> CheckOut</h1>
-      <div className="cart__product">
-        <div className="cart__productCard">
-          <div className="cart__productCard--adress">
-            <h2>Delivery Adress</h2>
-            <div className="mb-3">
-              <textarea
-                className="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-                placeholder="Input Adress"
-                onChange={handleAdress}
-              ></textarea>
+    <>
+      <Navbar />
+
+      <div
+        className="container pagePreviews py-4"
+        style={{ marginTop: "70px" }}
+      >
+        <h1 className="payment__header"> CheckOut</h1>
+        <div className="cart__product">
+          <div className="cart__productCard">
+            <div className="cart__productCard--adress">
+              <h2>Delivery Adress</h2>
+              <div className="mb-3">
+                <textarea
+                  className="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  placeholder="Input Adress"
+                  onChange={handleAdress}
+                ></textarea>
+              </div>
+              <button className="cart__productCard--adress__button">
+                {" "}
+                Change Adress
+              </button>
             </div>
-            <button className="cart__productCard--adress__button">
-              {" "}
-              Change Adress
-            </button>
+            <div className="cart__productCard--shopCard">
+              {
+                <ShopCard
+                  checkoutData={state[1]}
+                  productData={productData}
+                  setTotalPrice={setTotalPrice}
+                />
+              }
+            </div>
+            <div className="payment__priceBoxs">
+              <div className="payment__priceBox__total">
+                <h1 className="payment__priceBox__total__total">Total</h1>
+                <div className="payment__priceBox__flex">
+                  <h3 className="payment__priceBox__flex--item"> Item Price</h3>
+                  <h3 className="payment__priceBox__flex--price">
+                    Rp {totalPrice}
+                  </h3>
+                </div>
+                <div className="payment__priceBox__flex">
+                  <h3 className="payment__priceBox__flex--item"> Discount</h3>
+                  <h3 className="payment__priceBox__flex--price">Rp {0}</h3>
+                </div>
+                <hr />
+                <div className="payment__priceBox__flex">
+                  <h3
+                    className="payment__priceBox__flex--item"
+                    style={{ fontWeight: "bold", fontSize: "20px" }}
+                  >
+                    Bill
+                  </h3>
+                  <h3
+                    className="payment__priceBox__flex--price"
+                    style={{ fontWeight: "bold", fontSize: "20px" }}
+                  >
+                    Rp {totalPrice}
+                  </h3>
+                </div>
+                <button className="payment__payBillsButton">Pay Bills</button>
+                <button className="payment__paymentButton">
+                  {" "}
+                  Choose Payment Method
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="cart__productCard--shopCard">
-            {
-              <ShopCard
-                checkoutData={state[1]}
-                productData={productData}
-                setTotalPrice={setTotalPrice}
-              />
-            }
-          </div>
-          <div className="payment__priceBoxs">
+          <div className="payment__priceBox">
             <div className="payment__priceBox__total">
               <h1 className="payment__priceBox__total__total">Total</h1>
               <div className="payment__priceBox__flex">
@@ -120,7 +164,12 @@ function Payment() {
                   Rp {totalPrice}
                 </h3>
               </div>
-              <button className="payment__payBillsButton">Pay Bills</button>
+              <button
+                className="payment__payBillsButton"
+                onClick={handlePayment}
+              >
+                Pay Bills
+              </button>
               <button className="payment__paymentButton">
                 {" "}
                 Choose Payment Method
@@ -128,45 +177,10 @@ function Payment() {
             </div>
           </div>
         </div>
-        <div className="payment__priceBox">
-          <div className="payment__priceBox__total">
-            <h1 className="payment__priceBox__total__total">Total</h1>
-            <div className="payment__priceBox__flex">
-              <h3 className="payment__priceBox__flex--item"> Item Price</h3>
-              <h3 className="payment__priceBox__flex--price">
-                Rp {totalPrice}
-              </h3>
-            </div>
-            <div className="payment__priceBox__flex">
-              <h3 className="payment__priceBox__flex--item"> Discount</h3>
-              <h3 className="payment__priceBox__flex--price">Rp {0}</h3>
-            </div>
-            <hr />
-            <div className="payment__priceBox__flex">
-              <h3
-                className="payment__priceBox__flex--item"
-                style={{ fontWeight: "bold", fontSize: "20px" }}
-              >
-                Bill
-              </h3>
-              <h3
-                className="payment__priceBox__flex--price"
-                style={{ fontWeight: "bold", fontSize: "20px" }}
-              >
-                Rp {totalPrice}
-              </h3>
-            </div>
-            <button className="payment__payBillsButton" onClick={handlePayment}>
-              Pay Bills
-            </button>
-            <button className="payment__paymentButton">
-              {" "}
-              Choose Payment Method
-            </button>
-          </div>
-        </div>
       </div>
-    </div>
+
+      <Footer />
+    </>
   );
 }
 
