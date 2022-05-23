@@ -110,7 +110,9 @@ function Navbar() {
                 <img
                   src={
                     pathname === "/"
-                      ? process.env.REACT_APP_CLOUDINARY + dataUser.image
+                      ? dataUser.image
+                        ? process.env.REACT_APP_CLOUDINARY + dataUser.image
+                        : "https://res.cloudinary.com/elecshop/image/upload/v1653237289/profile/avatar-g543858b81_640_hz29j9.png"
                       : require("../../assets/images/logo.png")
                   }
                   alt={pathname === "/" ? "profile picture" : "logo"}
@@ -132,7 +134,11 @@ function Navbar() {
                   <div>
                     <li>
                       <img
-                        src={process.env.REACT_APP_CLOUDINARY + dataUser.image}
+                        src={
+                          dataUser.image
+                            ? process.env.REACT_APP_CLOUDINARY + dataUser.image
+                            : "https://res.cloudinary.com/elecshop/image/upload/v1653237289/profile/avatar-g543858b81_640_hz29j9.png"
+                        }
                         alt="profpic"
                         className="px-2"
                         style={{
