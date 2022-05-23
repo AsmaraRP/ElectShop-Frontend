@@ -218,7 +218,7 @@ function Home() {
               </button>
             </div>
           </div>
-          <div className="row row-cols-2 row-cols-md-3 gy-5 g-md-5 my-5">
+          <div className="row row-cols-2 row-cols-md-3 gy-2 gy-lg-5 gx-1 gx-sm-3 gx-md-2 gx-lg-4 my-5">
             {product.data.map((item) => (
               <div className="col" key={item.id}>
                 <ProductCard
@@ -229,12 +229,14 @@ function Home() {
               </div>
             ))}
           </div>
-          <Link
-            to="/viewall"
-            className="btn btn-primary fw-semibold px-4 py-2 shadow"
-          >
-            View All
-          </Link>
+          {product ? (
+            <Link
+              to="/viewall"
+              className="btn btn-primary fw-semibold px-4 py-2 shadow"
+            >
+              View All
+            </Link>
+          ) : null}
         </div>
 
         <div className="container-lg py-5 my-5 px-3">
