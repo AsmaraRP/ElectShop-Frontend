@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosApiIntances = axios.create({
-  baseURL: "https://elshopproject.herokuapp.com/",
+  baseURL: process.env.REACT_APP_SOURCE,
   // baseURL: process.env.REACT_APP_SOURCE,
 });
 

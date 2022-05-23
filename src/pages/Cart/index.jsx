@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
-// import Pagination from "react-paginate";
+import React, { useEffect, useState } from "react";
+import Pagination from "react-paginate";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux"
-// import Pagination from "react-paginate";
 import ShopCard from "../../components/card";
 import {getCheckoutById} from "../../stores/actions/cart"
 
@@ -11,7 +10,7 @@ function Cart() {
   document.title = "Cart Page|| electshop";
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const handleNaviegateCheckout = () => {
     navigate("/payment");
   };
@@ -24,18 +23,18 @@ function Cart() {
   console.log(cart.data)
   const searchUserId = "ab3c46b4-7ccd-4610-884b-77a5643f8717"
 
-  // const handlePagination = (data) => {
-  //   setPage(data.selected + 1);
-  // };
+  const handlePagination = (data) => {
+    setPage(data.selected + 1);
+  };
 
   useEffect(() => {
     getcheckoutById();
-  });
+  }, [page]);
 
   const getcheckoutById = async () => {
     try {
       // PanggilAction
-      const resultcheckout =await dispatch(getCheckoutById(1, limit, searchUserId))
+      const resultcheckout =await dispatch(getCheckoutById(page, limit, searchUserId))
       console.log(resultcheckout)
     } catch (error) {
       console.log(error.response);
@@ -89,6 +88,8 @@ function Cart() {
             <div className="cart__productCard">
               <div className="cart__productCard--shopCard">
                 <ShopCard />
+                <ShopCard />
+                <ShopCard />
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
@@ -104,7 +105,7 @@ function Cart() {
             </div>
           </div>
         </div>
-        {/* <Pagination
+        <Pagination
         className="pagination justify-content-center mt-4 page-item"
         previousLabel={"Previous"}
         nextLabel={"Next"}
@@ -114,7 +115,7 @@ function Cart() {
         containerClassName={"pagination"}
         subContainerClassName={"pages pagination"}
         activeClassName={"active"}
-      /> */}
+      />
         <div className="cart__productPayment">
           <div className="cart__productPaymentBox">
             <h2 className="cart__productPaymentBox--total">Total</h2>
