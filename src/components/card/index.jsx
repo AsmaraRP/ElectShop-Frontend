@@ -6,7 +6,8 @@ import {updateCheckout, deleteCheckout} from "../../stores/actions/cart"
 
 function ShopCard(props) {
   const { id, image, name, price, productId, productTotal, type } = props.data;
-  console.log(image.split(",")[0]);
+  const {selectedCard, selected} = props
+
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -64,7 +65,8 @@ function ShopCard(props) {
             className="form-check-input shopCard__check"
             type="checkbox"
             value="check"
-            id="flexCheckChecked"
+            id={`${selected.includes(id)? "flexCheckChecked" : "flexCheckDefault"}`}
+            onClick={() => {selectedCard({id, price, productTotal})}}
           />
         </div>
       </div>
