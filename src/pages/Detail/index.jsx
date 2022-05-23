@@ -21,17 +21,18 @@ function Detail() {
   const [item, setItem] = useState("");
   const [rating, setRating] = useState("");
   const [isReview, setIsReview] = useState(false);
-  const [idCheckout, setIdCheckout] = useState(214);
+  const [idCheckout, setIdCheckout] = useState(228);
   const [dataId, setDataId] = useState([]);
   const [dataIdCheckout, setDataIdCheckout] = useState([]);
   const [image, setImage] = useState("");
   const productId = params.id;
-
+  const [count, setCount] = useState(0);
+  console.log(count);
   const [data, setData] = useState({
     productId: params.id,
     addresDelivery: "",
     checkoutNote: isNotes,
-    productTotal: "",
+    productTotal: count,
     review: null,
     rating: null,
   });
@@ -110,20 +111,21 @@ function Detail() {
   {
     /*------------------------------------Handle Counters for product------------------------------------------*/
   }
+
   const increaseCounters = () => {
     console.log("Increase Counter");
-    if (item == dataId.stock) {
-      setItem((item = dataId.stock));
+    if (dataId.stock == count) {
+      setCount((count = dataId.stock));
     } else {
-      setItem(item + 1);
+      setCount(count + 1);
     }
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
-    if (item == 0) {
-      setItem((item = 0));
+    if (count === 0) {
+      setCount(count == 0);
     } else {
-      setItem(item - 1);
+      setCount(count - 1);
     }
   };
   {
@@ -223,7 +225,7 @@ function Detail() {
                   >
                     +
                   </button>
-                  <p className="detail__Preview--counterText">{item}</p>
+                  <p className="detail__Preview--counterText">{count}</p>
                   <button
                     onClick={decreaseCounters}
                     className="detail__Preview--counter"
@@ -448,7 +450,7 @@ function Detail() {
               >
                 +
               </button>
-              <p className="detail__Preview--counterText">{item}</p>
+              <p className="detail__Preview--counterText">{count}</p>
               <button
                 onClick={decreaseCounters}
                 className="detail__Preview--counter"
