@@ -4,7 +4,7 @@ export const getDataCheckout = (productId) => {
   return {
     type: "GET_DATA_CHECKOUT",
     payload: axios.get(
-      `checkout?searchUserId=&statusCart=active&searchProductId=${productId}`
+      `checkout?searchUserId=&statusCart=&searchProductId=${productId}`
     ),
   };
 };

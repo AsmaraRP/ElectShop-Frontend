@@ -21,7 +21,7 @@ function Detail() {
   const [item, setItem] = useState("");
   const [rating, setRating] = useState("");
   const [isReview, setIsReview] = useState(false);
-  const [idCheckout, setIdCheckout] = useState("");
+  const [idCheckout, setIdCheckout] = useState(214);
   const [dataId, setDataId] = useState([]);
   const [dataIdCheckout, setDataIdCheckout] = useState([]);
   const [image, setImage] = useState("");
@@ -57,6 +57,20 @@ function Detail() {
       const result = await dispatch(postDataCheckout(data));
 
       navigate("/payment", {
+        state: [product, data, result.action.payload.data.data.id],
+      });
+      getDataCheckout();
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const handleSubmitCart = async (e) => {
+    try {
+      e.preventDefault();
+      const result = await dispatch(postDataCheckout(data));
+
+      navigate("/cart", {
         state: [product, data, result.action.payload.data.data.id],
       });
       getDataCheckout();
@@ -263,11 +277,13 @@ function Detail() {
                 >
                   Checkout
                 </button>
-                <button className="detail__Preview--checkout--cart">
+                <button
+                  className="detail__Preview--checkout--cart"
+                  onClick={handleSubmitCart}
+                >
                   <img
                     src={require("../../assets/images/Cart.png")}
                     alt="cart"
-                    onClick={handleCart}
                   />
                 </button>
               </div>
@@ -465,12 +481,11 @@ function Detail() {
             >
               Checkout
             </button>
-            <button className="detail__Preview--checkout--cart">
-              <img
-                src={require("../../assets/images/Cart.png")}
-                alt="cart"
-                onClick={handleCart}
-              />
+            <button
+              className="detail__Preview--checkout--cart"
+              onClick={handleSubmitCart}
+            >
+              <img src={require("../../assets/images/Cart.png")} alt="cart" />
             </button>
           </div>
         </div>

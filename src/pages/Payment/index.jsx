@@ -25,7 +25,7 @@ function Payment() {
 
   const checkOut = useSelector((state) => state.checkOut);
   const handleAdress = (event) => {
-    setAdress(event.target.value);
+    setData(event.target.value);
   };
 
   console.log(state);
@@ -37,6 +37,7 @@ function Payment() {
       state: [idCheckout, data],
     });
   };
+
   return (
     <div className="container pagePreviews">
       <h1 className="payment__header"> CheckOut</h1>
