@@ -3,7 +3,9 @@ import axios from "../../utils/axios";
 export const getDataCheckout = (productId) => {
   return {
     type: "GET_DATA_CHECKOUT",
-    payload: axios.get(`checkout?searchUserId=&searchProductId=${productId}`),
+    payload: axios.get(
+      `checkout?searchUserId=&statusCart=active&searchProductId=${productId}`
+    ),
   };
 };
 

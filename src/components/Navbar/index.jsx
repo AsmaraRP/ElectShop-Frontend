@@ -20,7 +20,7 @@ function Navbar() {
   return (
     <nav
       className={`navbar navbar-expand-md navbar-light ${
-        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-skyblue"
+        pathname === "/" ? "bg-lightblue shadow-sm" : "bg-skyblue py-3"
       } fixed-top text-center px-3 px-lg-0`}
     >
       <div className="container-lg">
@@ -37,10 +37,11 @@ function Navbar() {
           </Link>
         ) : (
           <button
-            className="btn bg-primary bg-opacity-10"
+            className="btn bg-primary bg-opacity-10 px-2 py-1"
+            style={{ bordeRadius: "10px" }}
             onClick={() => navigate(-1)}
           >
-            <i className="bi bi-chevron-left text-primary"></i>
+            <i className="bi bi-chevron-left text-primary fw-bold fs-5"></i>
           </button>
         )}
         <button
@@ -91,7 +92,7 @@ function Navbar() {
           {Object.keys(dataUser).length === 0 ? (
             <Link
               to="/login"
-              className="btn btn-primary py-2 shadow"
+              className="btn btn-primary py-2 shadow ms-auto"
               role="button"
             >
               Sign in
