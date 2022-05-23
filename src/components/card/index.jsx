@@ -3,18 +3,21 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./index.css";
 
 function ShopCard(props) {
-  const { id, image, name, price, stock, type } = props.data[0].data[0];
-  console.log(image.split(",")[0]);
+  const { id, image, name, price, stock, type } = props.productData;
+  const { productTotal } = props.checkoutData;
 
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(productTotal);
   const increaseCounters = () => {
     console.log("Increase Counter");
     setCount(count + 1);
+    props.setTotalPrice(price * (count + 1));
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
     setCount(count - 1);
+    props.setTotalPrice(price * (count - 1));
   };
+
   return (
     <div className="shopCard">
       <div className="shopCard__checkBox">
@@ -29,9 +32,11 @@ function ShopCard(props) {
       </div>
       <div className="shopCard__image">
         <img
-          src={`https://res.cloudinary.com/elecshop/image/upload/v1652968777/${
-            image.split(",")[3]
-          }`}
+          src={
+            image
+              ? `${process.env.REACT_APP_CLOUDINARY}${image.split(",")[0]}`
+              : null
+          }
           alt="headphone"
           className="shopCard__image--picture"
         />

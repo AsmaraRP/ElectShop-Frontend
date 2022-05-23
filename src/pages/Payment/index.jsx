@@ -10,33 +10,58 @@ import { useSelector, useDispatch } from "react-redux";
 import "./index.css";
 import ShopCard from "../../components/card";
 import { updateDataCheckout } from "../../stores/actions/checkout";
+import { createTransaction } from "../../stores/actions/transaction";
+import { getDataProductId } from "../../stores/actions/product";
+
 function Payment() {
   const { state } = useLocation();
-  const [adress, setAdress] = useState();
+  const dataUser = useSelector((state) => state.user);
+  const [adress, setAdress] = useState(dataUser.data.address);
   const dispatch = useDispatch();
   const [data, setData] = useState({
     addresDelivery: "",
     review: null,
     rating: null,
-    statusCart: "notActive",
+    statusCart: "active",
   });
-
   const [idCheckout] = useState(state[2]);
+  const [productData, setProductData] = useState({});
+  const [totalPrice, setTotalPrice] = useState(state[3]);
+  const [transactionData, setTransactionData] = useState({
+    checkoutId: idCheckout,
+    totalPrice: totalPrice,
+  });
 
   const checkOut = useSelector((state) => state.checkOut);
   const handleAdress = (event) => {
     setAdress(event.target.value);
   };
 
-  console.log(state);
+  console.log(adress);
   const navigate = useNavigate();
-  const handleUpdate = async (e) => {
+
+  useEffect(() => {
+    getDataProductById();
+  }, []);
+
+  useEffect(() => {
+    setTransactionData({ ...transactionData, totalPrice });
+  }, [totalPrice]);
+
+  const handlePayment = async (e) => {
     e.preventDefault();
+
+    setData({ ...data, statusCart: "notActive" });
     await dispatch(updateDataCheckout(idCheckout, data));
-    navigate("/history", {
-      state: [idCheckout, data],
-    });
+    const result = await dispatch(createTransaction(transactionData));
+    window.open(result.action.payload.data.data.redirectUrl);
   };
+
+  const getDataProductById = async () => {
+    const result = await dispatch(getDataProductId(state[1].productId));
+    setProductData(result.action.payload.data.data[0]);
+  };
+
   return (
     <div className="container pagePreviews">
       <h1 className="payment__header"> CheckOut</h1>
@@ -59,18 +84,26 @@ function Payment() {
             </button>
           </div>
           <div className="cart__productCard--shopCard">
-            {<ShopCard data={state} key={state.id} />}
+            {
+              <ShopCard
+                checkoutData={state[1]}
+                productData={productData}
+                setTotalPrice={setTotalPrice}
+              />
+            }
           </div>
           <div className="payment__priceBoxs">
             <div className="payment__priceBox__total">
               <h1 className="payment__priceBox__total__total">Total</h1>
               <div className="payment__priceBox__flex">
                 <h3 className="payment__priceBox__flex--item"> Item Price</h3>
-                <h3 className="payment__priceBox__flex--price"> $3000</h3>
+                <h3 className="payment__priceBox__flex--price">
+                  Rp {totalPrice}
+                </h3>
               </div>
               <div className="payment__priceBox__flex">
                 <h3 className="payment__priceBox__flex--item"> Discount</h3>
-                <h3 className="payment__priceBox__flex--price"> $3000</h3>
+                <h3 className="payment__priceBox__flex--price">Rp {0}</h3>
               </div>
               <hr />
               <div className="payment__priceBox__flex">
@@ -84,7 +117,7 @@ function Payment() {
                   className="payment__priceBox__flex--price"
                   style={{ fontWeight: "bold", fontSize: "20px" }}
                 >
-                  $6000
+                  Rp {totalPrice}
                 </h3>
               </div>
               <button className="payment__payBillsButton">Pay Bills</button>
@@ -100,11 +133,13 @@ function Payment() {
             <h1 className="payment__priceBox__total__total">Total</h1>
             <div className="payment__priceBox__flex">
               <h3 className="payment__priceBox__flex--item"> Item Price</h3>
-              <h3 className="payment__priceBox__flex--price"> $3000</h3>
+              <h3 className="payment__priceBox__flex--price">
+                Rp {totalPrice}
+              </h3>
             </div>
             <div className="payment__priceBox__flex">
               <h3 className="payment__priceBox__flex--item"> Discount</h3>
-              <h3 className="payment__priceBox__flex--price"> $3000</h3>
+              <h3 className="payment__priceBox__flex--price">Rp {0}</h3>
             </div>
             <hr />
             <div className="payment__priceBox__flex">
@@ -118,10 +153,10 @@ function Payment() {
                 className="payment__priceBox__flex--price"
                 style={{ fontWeight: "bold", fontSize: "20px" }}
               >
-                $6000
+                Rp {totalPrice}
               </h3>
             </div>
-            <button className="payment__payBillsButton" onClick={handleUpdate}>
+            <button className="payment__payBillsButton" onClick={handlePayment}>
               Pay Bills
             </button>
             <button className="payment__paymentButton">
