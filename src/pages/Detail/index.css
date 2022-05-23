@@ -3,6 +3,7 @@
   font-family: "Nunito", sans-serif;
 }
 .pagePreview {
+  margin-top: 80px;
   padding: 0 50px;
 }
 .detail {
@@ -256,6 +257,15 @@
   box-shadow: 20px 20px 20px gainsboro;
   margin-bottom: 80px;
   font-weight: bold;
+  height: 600px;
+  overflow-y: scroll;
+}
+.detail__reviewProduct__Submit {
+  border: solid gainsboro 1px;
+  padding: 20px 40px;
+  border-radius: 12px;
+  box-shadow: 20px 20px 20px gainsboro;
+  margin-bottom: 50px;
 }
 .detail__reviewProductHeader {
   display: inline;
@@ -556,6 +566,7 @@
     box-shadow: 20px 20px 20px gainsboro;
     margin-bottom: 80px;
     font-weight: bold;
+    height: 300px;
   }
   .detail__reviewProductHeader {
     display: inline;
