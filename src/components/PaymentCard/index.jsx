@@ -68,7 +68,7 @@ function PaymentCard(props) {
           {type}
         </h3>
         <p className="shopCard__desc--type">{name}</p>
-        <h3 className="shopCard__desc--price">{price * productTotal}</h3>
+        <h3 className="shopCard__desc--price">{price * count}</h3>
       </div>
       <div className="shopCard__counter">
         <button onClick={handleDelete} className="shopCard__counter--delete">
@@ -81,7 +81,7 @@ function PaymentCard(props) {
           >
             +
           </button>
-          <p className="shopCard__counter--counterText">{productTotal}</p>
+          <p className="shopCard__counter--counterText">{count}</p>
           <button
             onClick={decreaseCounters}
             className="shopCard__counter--boxCount--count"

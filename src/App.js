@@ -14,26 +14,37 @@ import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Unauthorized from "./pages/Unauthorized";
 import Activation from "./pages/Activation";
+import PrivateRoute from "./helpers/privateRoutes";
+import PublicRoute from "./helpers/publicRoutes";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/manage" element={<Manage />} />
-        <Route path="/cheking" element={<Checking />} />
-        <Route path="/viewall" element={<ViewAll />} />
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/viewall" element={<ViewAll />} />
         <Route path="/detail/:id" element={<Detail />} />
-        <Route path="/confirm" element={<Confirm />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/profile" element={<Profile />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/activation" element={<Activation />} />
+
+        <Route element={<PublicRoute />} restricted={true}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+
+        <Route element={<PrivateRoute />} isAdmin={true}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/manage" element={<Manage />} />
+          <Route path="/cheking" element={<Checking />} />
+        </Route>
+
+        <Route element={<PrivateRoute />} isAdmin={false}>
+          <Route path="/confirm" element={<Confirm />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

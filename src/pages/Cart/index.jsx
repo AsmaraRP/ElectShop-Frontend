@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ShopCard from "../../components/card";
 import { getCheckoutById, createTransaction } from "../../stores/actions/cart";
+import { updateDataCheckout } from "../../stores/actions/checkout";
 
 function Cart() {
   document.title = "Cart Page|| electshop";
@@ -14,22 +15,41 @@ function Cart() {
   const [page, setPage] = useState(1);
   const [selectedCard, setSelectedCard] = useState([]);
   console.log(selectedCard);
+  const [totalPayment, setTotalPayment] = useState(0);
+  const [data, setData] = useState({
+    addresDelivery: "",
+    review: null,
+    rating: null,
+    statusCart: "notActive",
+  });
+
+  console.log(totalPayment);
+  const checkoutId = selectedCard.map((item) => item.id).join(",");
+  console.log(checkoutId);
+
+  // useEffect(() => {
+  //   handleNaviegateCheckout();
+  // }, []);
 
   useEffect(() => {
-    handleNaviegateCheckout();
-  }, []);
+    setTotalPayment(
+      selectedCard
+        .map((item) => item.price * item.productTotal)
+        .reduce((partialSum, a) => partialSum + a, 0)
+    );
+  }, [selectedCard]);
 
   const handleNaviegateCheckout = async () => {
     try {
-      const totalPayment = selectedCard.map(
-        (item) => item.price * item.productTotal
-      );
-      console.log(totalPayment);
       const dataTransaction = {
-        checkoutId: selectedCard.id.join(","),
-        totalPayment,
+        checkoutId,
+        totalPrice: totalPayment,
       };
       console.log(dataTransaction);
+      setData({ ...data, statusCart: "notActive" });
+      await dispatch(updateDataCheckout(dataTransaction.checkoutId, data));
+      const result = await dispatch(createTransaction(dataTransaction));
+      window.open(result.action.payload.data.data.redirectUrl);
       // const transaction = await dispatch(createTransaction(dataTransaction))
       // console.log(transaction)
       // navigate("/payment");
@@ -40,17 +60,26 @@ function Cart() {
   const handleSelectAll = (event) => {
     console.log(event.target.checked);
   };
-
   const handleSelectCheckout = (card) => {
-    console.log(card);
-    if (selectedCard.includes(card)) {
-      const deleteCard = selectedCard.filter((el) => {
-        return el !== card;
-      });
-      setSelectedCard(deleteCard);
-    } else {
-      setSelectedCard([...selectedCard, card]);
-    }
+    console.log(card.id);
+    selectedCard.map((item) => {
+      if (item.id === card.id) {
+        // setSelectedCard([{ id: "", price: "", productTotal: "" }]);
+        const index = selectedCard.findIndex((el) => el.id === item.id);
+        setSelectedCard(selectedCard.splice(index, 1));
+      }
+    });
+    setSelectedCard([...selectedCard, card]);
+
+    // if (selectedCard.includes(card.id)) {
+    //   console.log("berhasil");
+    //   const deleteCard = selectedCard.filter((el) => {
+    //     return el !== card;
+    //   });
+    //   setSelectedCard(deleteCard);
+    // } else {
+    //   setSelectedCard([...selectedCard, card]);
+    // }
   };
   console.log(selectedCard);
 
@@ -127,21 +156,23 @@ function Cart() {
                 className="cart__productCard--shopCard"
                 onClick={() => getcheckoutById()}
               >
-                {cart.data.map((item) => (
-                  <ShopCard
-                    data={item}
-                    key={item.id}
-                    selectedCard={handleSelectCheckout}
-                    selected={selectedCard}
-                  />
-                ))}
+                {cart
+                  ? cart.data.map((item) => (
+                      <ShopCard
+                        data={item}
+                        key={item.id}
+                        selectedCard={(card) => handleSelectCheckout(card)}
+                        selected={selectedCard}
+                      />
+                    ))
+                  : ""}
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
                 <h1 className="cart__product--totalPrice1">$6000</h1>
                 <button
                   className="cart__productPaymentBox--checkout"
-                  onClick={handleNaviegateCheckout}
+                  onClick={(item) => handleNaviegateCheckout(item)}
                 >
                   {" "}
                   CheckOut
@@ -155,7 +186,9 @@ function Cart() {
             <h2 className="cart__productPaymentBox--total">Total</h2>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Item Price</h4>
-              <h4 className="cart__ProductPaymentBox--nominal">$200</h4>
+              <h4 className="cart__ProductPaymentBox--nominal">
+                Rp. {totalPayment}
+              </h4>
             </div>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Discount</h4>
@@ -173,12 +206,12 @@ function Cart() {
                 className="cart__ProductPaymentBox--nominal"
                 style={{ fontSize: "20px", fontWeight: "bold" }}
               >
-                $200
+                Rp. {totalPayment}
               </h4>
             </div>
             <button
               className="cart__productPaymentBox--checkout"
-              onClick={handleNaviegateCheckout}
+              onClick={(item) => handleNaviegateCheckout(item)}
               selected={selectedCard}
             >
               {" "}
