@@ -12,6 +12,8 @@ import Detail from "./pages/Detail";
 import Confirm from "./pages/Confirm";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
+import Unauthorized from "./pages/Unauthorized";
+import Activation from "./pages/Activation";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/history" element={<History />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/activation" element={<Activation />} />
       </Routes>
     </BrowserRouter>
   );

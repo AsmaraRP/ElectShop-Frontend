@@ -12,39 +12,46 @@ function ProductCard(props) {
     props.handleClickCheckout(id);
   };
   return (
-    <div className="card product-card text-start border-0 shadow position-relative">
-      <div className="card-header border-0 p-4 bg-skyblue">
-        <p className="text-darkgray mb-0 d-none d-md-block">{type}</p>
-        <p className="fs-4 fw-bold text-primary d-none d-md-block">
-          {price} IDR
-        </p>
+    <div className="card product-card text-start bg-white border-0 shadow position-relative">
+      <div
+        className="card-header border-0 p-2 bg-white"
+        style={{ overflow: "hidden" }}
+      >
         <img
           src={`${process.env.REACT_APP_CLOUDINARY}/${image.split(",")[0]}`}
           alt="headset-1"
-          className="product-card__product-image position-absolute start-50 translate-middle-x"
+          className="product-card__product-image w-100 h-100"
+          style={{ objectFit: "cover", borderRadius: "16px 16px 0 0" }}
         />
-        <button
-          className="add-to-cart btn btn-secondary rounded-circle position-absolute d-none d-md-flex justify-content-center align-items-center translate-middle"
-          style={{ width: "70px", height: "70px", top: 0, right: "2%" }}
-          onClick={(e) => stopPropagationCheckout(e)}
-        >
-          <i className="bi bi-cart text-light fs-4 d-block"></i>
-        </button>
       </div>
-      <div className="card-body d-flex d-md-none align-items-end p-3">
-        <button
-          className="btn btn-primary fw-semibold p-2 flex-grow-1 me-2"
-          onClick={(e) => stopPropagationDetail(e)}
-        >
-          Details
-        </button>
-        <button
-          className="btn btn-outline-primary px-sm-3 py-2"
-          onClick={(e) => stopPropagationCheckout(e)}
-        >
-          <i class="bi bi-cart d-block"></i>
-        </button>
+
+      <div className="card-body align-items-end px-3 pt-1">
+        <p className="text-darkgray mb-1 text-truncate">{type}</p>
+        <p className="product-price h4 fw-bold text-primary mb-4">
+          {price} IDR
+        </p>
+        <div className="d-flex">
+          <button
+            className="btn btn-outline-primary fw-semibold py-2 flex-grow-1"
+            onClick={(e) => stopPropagationDetail(e)}
+          >
+            Details
+          </button>
+          <button
+            className="btn btn-primary px-sm-3 py-2 ms-2 d-lg-none"
+            onClick={(e) => stopPropagationCheckout(e)}
+          >
+            <i class="bi bi-cart d-block"></i>
+          </button>
+        </div>
       </div>
+      <button
+        className="add-to-cart btn btn-secondary rounded-circle shadow-sm position-absolute d-none d-lg-flex justify-content-center align-items-center translate-middle"
+        style={{ width: "64px", height: "64px", top: 0, right: 0 }}
+        onClick={(e) => stopPropagationCheckout(e)}
+      >
+        <i className="bi bi-cart text-light fs-4 d-block"></i>
+      </button>
     </div>
   );
 }
