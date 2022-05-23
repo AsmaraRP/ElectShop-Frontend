@@ -1,32 +1,29 @@
 import "./index.css";
-// import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import photo from "../../assets/images/profile__photo.png";
 import line from "../../assets/images/profile__line.png";
-import uploadIcon from "../../assets/images/profile__upload.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
-// import { updateUser} from "../../stores/actions/user";
+import { updateUser, getUserById } from "../../stores/actions/user";
 
 function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleNavigate = (nav) => {
-    navigate(`/${nav}`);
-  };
   const user = useSelector((state) => state.user);
+  console.log(user);
   const [gender, setGender] = useState(0);
   const [seePass, setSeePass] = useState(1);
   const [imageForm, setImageForm] = useState({ image: null });
+  const [uiImage, setUiImage] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
-  console.log(user);
   const [formUser, setFormUser] = useState({
     name: "",
     address: "",
     phoneNumber: "",
-    date: "",
+    date: null,
     gender: gender,
     password: "",
   });
@@ -37,18 +34,8 @@ function Profile() {
   const handleChangeImage = (event) => {
     const { name, files } = event.target;
     setImageForm({ [name]: files[0] });
+    setUiImage(URL.createObjectURL(files[0]));
   };
-  //   const handleSubmitDetail = async (e) => {
-  //     try {
-  //       e.preventDefault();
-  //       setFormUser({ ...formUser });
-  //       const sendData = { id: idUser, ...formUser };
-  //       console.log(sendData);
-  //       await dispatch(updateUser(idUser, formUser));
-  //     } catch (error) {
-  //       console.log(error.response);
-  //     }
-  //   };
   const handleGender = (e) => {
     e.preventDefault();
     setGender(!gender);
@@ -61,7 +48,28 @@ function Profile() {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      console.log(formUser);
+      const formSend = {
+        fullName: formUser.name,
+        address: formUser.address,
+        noTelp: formUser.phoneNumber,
+        birthDay: new Date(selectedDate).toLocaleDateString(),
+        gender: formUser.gender,
+        password: formUser.password,
+        image: imageForm.image,
+      };
+      console.log(formSend);
+      console.log(user);
+      const formData = new FormData();
+      for (const data in formSend) {
+        formData.append(data, formSend[data]);
+      }
+      for (const data of formData.entries()) {
+        console.log(data[0] + ", " + data[1]);
+      }
+      await dispatch(updateUser(user.data.id, formData));
+      alert("Success Change Profile");
+      setFormUser({ name: "", address: "", phoneNumber: "", date: null, gender: gender, password: "" });
+      await dispatch(getUserById(user.data.id));
     } catch (error) {
       console.log(error);
     }
@@ -70,11 +78,12 @@ function Profile() {
     <>
       <div className="profile__mainPage">
         <div className="container">
+          <img src={logo} alt="" className="profile__backHome" onClick={() => navigate("/")} />
           <div className="profile__photoSetting">
-            <img src={photo} className="profile__photoProfile" alt="" />
-            <div className="profile__uploadIcon">
-              <img src={uploadIcon} alt="" className="profile__uploadIcon" />
-              <input type="file" name="image" onChange={handleChangeImage} />
+            <img src={user.data.image ? process.env.REACT_APP_CLOUDINARY + user.data.image : uiImage !== null ? uiImage : photo} className="profile__photoProfile" alt="" />
+            <div className="profile__uploadIconSpace">
+              <label for="userFiles" className="btn profile__uploadIcon"></label>
+              <input type="file" id="userFiles" name="image" onChange={handleChangeImage} className="profile__uploadIconInput" />
             </div>
           </div>
           <div className="profile__des">
@@ -92,7 +101,7 @@ function Profile() {
                       <i className="bi bi-person"></i>
                     </div>
                     <div className="col-10">
-                      <input className="profile__inputForm d-flex" type="text" placeholder="What is Your Name" name="name" onChange={handleChangeForm} value={formUser.name} />
+                      <input className="profile__inputForm d-flex" type="text" placeholder={user.data.fullName ? user.data.fullName : "What is Your Name"} name="name" onChange={handleChangeForm} value={formUser.name} />
                     </div>
                   </div>
                 </div>
@@ -131,7 +140,7 @@ function Profile() {
                       <i className="bi bi-calendar"></i>
                     </div>
                     <div className="col-10">
-                      <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} className="profile__inputForm" placeholderText="When were you born" />
+                      <DatePicker selected={selectedDate} onChange={(date) => setSelectedDate(date)} className="profile__inputForm" placeholderText="When were you born" dateFormat="dd/MM/yyyy" />
                     </div>
                   </div>
                 </div>
