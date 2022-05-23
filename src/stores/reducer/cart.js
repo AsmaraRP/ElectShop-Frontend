@@ -92,6 +92,7 @@ const cart = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
+        data: action.payload.data.data,
         msg: action.payload.data.msg,
       };
     }
@@ -100,6 +101,7 @@ const cart = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: true,
+        data: [],
         msg: action.payload.response.data.msg,
       };
     }

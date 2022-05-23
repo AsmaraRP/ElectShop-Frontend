@@ -58,6 +58,31 @@ const transaction = (state = initialState, action) => {
         msg: action.payload.response.data.msg,
       };
     }
+    case "CREATE_TRANSACTION_PENDING": {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case "CREATE_TRANSACTION_FULFILLED": {
+      return {
+        ...state,
+        isLoading: false,
+        data: action.payload.data.data,
+        pageInfo: action.payload.data.pagination,
+        msg: action.payload.data.msg,
+      };
+    }
+    case "CREATE_TRANSACTION_REJECTED": {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+        data: [],
+        pageInfo: {},
+        msg: action.payload.response.data.msg,
+      };
+    }
     default: {
       return state;
     }

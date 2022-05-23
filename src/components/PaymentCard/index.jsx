@@ -4,45 +4,28 @@ import "./index.css";
 import { useDispatch } from "react-redux";
 import { updateCheckout, deleteCheckout } from "../../stores/actions/cart";
 
-function ShopCard(props) {
-  const { id, image, name, price, productId, productTotal, type } = props.data;
-  const {selectedCard, selected} = props
-
-
-  const navigate = useNavigate();
+function PaymentCard(props) {
+  const { id, image, name, price, stock, type } = props.productData;
+  const { productTotal } = props.checkoutData;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    updateProductTotalCheckout();
-  }, []);
-
-  const updateProductTotalCheckout = async () => {
-    try {
-      // PanggilAction
-      const productTotalUpdate = productTotal + count;
-      const updatecheckout = await dispatch(
-        updateCheckout(id, { productTotal: productTotalUpdate })
-      );
-      console.log(updatecheckout);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  let count;
+  const navigate = useNavigate();
+  const [count, setCount] = useState(productTotal);
   const increaseCounters = () => {
     console.log("Increase Counter");
-    count = 1;
-    updateProductTotalCheckout();
+    setCount(count + 1);
+    props.setTotalPrice(price * (count + 1));
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
-    count = -1;
-    updateProductTotalCheckout();
+    setCount(count - 1);
+    props.setTotalPrice(price * (count - 1));
+  };
+  const handleNaviegateDetail = () => {
+    navigate(`/detail/${id}`);
   };
 
-  const handleNaviegateDetail = () => {
-    navigate(`/detail/${productId}`);
+  const handleDelete = () => {
+    deletecheckout();
   };
 
   const deletecheckout = async () => {
@@ -54,11 +37,6 @@ function ShopCard(props) {
       console.log(error.response);
     }
   };
-
-  const handleDelete = () => {
-    deletecheckout();
-  };
-
   return (
     <div className="shopCard">
       <div className="shopCard__checkBox">
@@ -67,8 +45,7 @@ function ShopCard(props) {
             className="form-check-input shopCard__check"
             type="checkbox"
             value="check"
-            id={`${selected.includes(id)? "flexCheckChecked" : "flexCheckDefault"}`}
-            onClick={() => {selectedCard({id, price, productTotal})}}
+            id="flexCheckChecked"
           />
         </div>
       </div>
@@ -117,4 +94,4 @@ function ShopCard(props) {
   );
 }
 
-export default ShopCard;
+export default PaymentCard;

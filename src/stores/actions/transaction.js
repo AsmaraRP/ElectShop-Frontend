@@ -13,3 +13,10 @@ export const deliveryTransaction = (id, data) => {
     payload: axios.patch(`/transaction/delivery/${id}`, data),
   };
 };
+
+export const createTransaction = (data) => {
+  return {
+    type: "CREATE_TRANSACTION",
+    payload: axios.post("/transaction", data),
+  };
+};
