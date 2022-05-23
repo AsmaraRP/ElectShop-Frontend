@@ -21,7 +21,7 @@ function Detail() {
   const [item, setItem] = useState("");
   const [rating, setRating] = useState("");
   const [isReview, setIsReview] = useState(false);
-  const [idCheckout, setIdCheckout] = useState(228);
+  const [idCheckout, setIdCheckout] = useState(243);
   const [dataId, setDataId] = useState([]);
   const [dataIdCheckout, setDataIdCheckout] = useState([]);
   const [image, setImage] = useState("");
@@ -46,12 +46,6 @@ function Detail() {
     getdataProductId();
   }, []);
 
-  const handleChangeData = (event) => {
-    setData({
-      ...data,
-      [event.target.name]: event.target.value,
-    });
-  };
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -135,6 +129,10 @@ function Detail() {
     if (event.key === "Enter") {
       setIsNotes(false);
       setNotes(event.target.value);
+      setData({
+        ...data,
+        [event.target.name]: event.target.value,
+      });
     }
   };
   {
@@ -225,7 +223,12 @@ function Detail() {
                   >
                     +
                   </button>
-                  <p className="detail__Preview--counterText">{count}</p>
+                  <p
+                    className="detail__Preview--counterText"
+                    onChange={handleProductTotal}
+                  >
+                    {count}
+                  </p>
                   <button
                     onClick={decreaseCounters}
                     className="detail__Preview--counter"
@@ -244,17 +247,24 @@ function Detail() {
                 <input
                   type="text"
                   name="checkoutNote"
-                  onKeyPress={(handleIsNotes, handleChangeData)}
+                  onKeyPress={handleIsNotes}
                   className="detail__Preview--addNotes--text"
                   placeholder="choose color and press enter"
                 />
               ) : (
-                <button
-                  onClick={() => setIsNotes(true)}
-                  className="detail__Preview--addNotes"
-                >
-                  Add notes
-                </button>
+                <>
+                  <button
+                    onClick={() => setIsNotes(true)}
+                    className="detail__Preview--addNotes"
+                  >
+                    Add notes
+                  </button>
+                  <div>
+                    <p className="detail__Preview--addNotes--message">
+                      {data.checkoutNote}
+                    </p>
+                  </div>
+                </>
               )}
               <p className="detail__Preview--subTotal">Sub Total</p>
               {/* <h3
@@ -269,7 +279,7 @@ function Detail() {
                 type="number"
                 name="productTotal"
                 onChange={handleProductTotal}
-                placeholder={item * dataId.price}
+                placeholder={count * dataId.price}
               />
               <div className="detail__Preview--checkout">
                 <button

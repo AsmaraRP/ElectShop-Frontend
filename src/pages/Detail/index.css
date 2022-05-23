@@ -163,7 +163,19 @@
   border: none;
   margin-top: 20px;
   display: block;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
+}
+.detail__Preview--addNotes--message {
+  font-weight: bold;
+  background-color: #0300ad;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+  border: none;
+  margin-top: 20px;
+  display: block;
+  margin-bottom: 30px;
 }
 .detail__Preview--addNotes--text {
   margin-top: 20px;
