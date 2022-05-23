@@ -1,16 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Pagination from "react-paginate";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux"
 import ShopCard from "../../components/card";
+import {getCheckoutById} from "../../stores/actions/cart"
 
 function Cart() {
+  document.title = "Cart Page|| electshop";
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const [page, setPage] = useState(1);
+  const userId = localStorage.getItem("userId")
   const handleNaviegateCheckout = () => {
     navigate("/payment");
   };
   const handleSelectAll = (event) => {
     console.log(event.target.checked);
   };
+
+  const limit = 5;
+  const cart = useSelector((state) => state.cart)
+  console.log(cart.data)
+
+  const handlePagination = (data) => {
+    setPage(data.selected + 1);
+  };
+
+  useEffect(() => {
+    getcheckoutById();
+  }, []);
+
+  const getcheckoutById = async () => {
+    try {
+      // PanggilAction
+      const resultcheckout = await dispatch(getCheckoutById(page, limit, userId))
+      console.log(resultcheckout)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   return (
     <div className="container pagePreview">
       <div className="cart__searchSortBar">
@@ -56,12 +86,10 @@ function Cart() {
           </div>
           <div className="cart__product">
             <div className="cart__productCard">
-              <div className="cart__productCard--shopCard">
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
-                <ShopCard />
+              <div className="cart__productCard--shopCard" onClick={() => getcheckoutById()}>
+                { cart.data.map((item) => (
+                    <ShopCard data={item} key={item.id}/>
+                ))}
               </div>
               <div className="cart__product--totalProduct1">
                 <h5>Total</h5>
@@ -86,7 +114,7 @@ function Cart() {
             </div>
             <div className="cart__ProductPaymentBox--price">
               <h4 className="cart__ProductPaymentBox--item">Discount</h4>
-              <h4 className="cart__ProductPaymentBox--nominal">$200</h4>
+              <h4 className="cart__ProductPaymentBox--nominal">Rp. 0</h4>
             </div>
             <hr />
             <div className="cart__ProductPaymentBox--price">
@@ -113,6 +141,17 @@ function Cart() {
           </div>
         </div>
       </div>
+      <Pagination
+        className="pagination justify-content-center mt-4 page-item"
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={cart.pageInfo.totalPage}
+        onPageChange={handlePagination}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      />
     </div>
   );
 }

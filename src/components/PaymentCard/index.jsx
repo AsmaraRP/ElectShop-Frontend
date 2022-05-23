@@ -4,58 +4,20 @@ import "./index.css";
 import { useDispatch } from "react-redux";
 import { updateCheckout, deleteCheckout } from "../../stores/actions/cart";
 
-function ShopCard(props) {
-  const { id, image, name, price, productId, productTotal, type } = props.data;
-  console.log(image.split(",")[0]);
+function PaymentCard(props) {
+  const { id, image, name, price, stock, type } = props.productData;
+  const { productTotal } = props.checkoutData;
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    updateProductTotalCheckout();
-  }, []);
-
-  const updateProductTotalCheckout = async () => {
-    try {
-      // PanggilAction
-      const productTotalUpdate = productTotal + count;
-      const updatecheckout = await dispatch(
-        updateCheckout(id, { productTotal: productTotalUpdate })
-      );
-      console.log(updatecheckout);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  let count;
+  const [count, setCount] = useState(productTotal);
   const increaseCounters = () => {
     console.log("Increase Counter");
-    count = 1;
-    updateProductTotalCheckout();
+    setCount(count + 1);
+    props.setTotalPrice(price * (count + 1));
   };
   const decreaseCounters = () => {
     console.log("Decrease Counter");
-    count = -1;
-    updateProductTotalCheckout();
-  };
-
-  const handleNaviegateDetail = () => {
-    navigate(`/detail/${productId}`);
-  };
-
-  const deletecheckout = async () => {
-    try {
-      // PanggilAction
-      const deletecheckout = await dispatch(deleteCheckout(id));
-      console.log(deletecheckout);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  const handleDelete = () => {
-    deletecheckout();
+    setCount(count - 1);
+    props.setTotalPrice(price * (count - 1));
   };
 
   return (
@@ -115,4 +77,4 @@ function ShopCard(props) {
   );
 }
 
-export default ShopCard;
+export default PaymentCard;

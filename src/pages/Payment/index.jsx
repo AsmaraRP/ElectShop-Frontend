@@ -8,12 +8,12 @@ import {
 } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import "./index.css";
-import ShopCard from "../../components/card";
 import { updateDataCheckout } from "../../stores/actions/checkout";
 import { createTransaction } from "../../stores/actions/transaction";
 import { getDataProductId } from "../../stores/actions/product";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import PaymentCard from "../../components/PaymentCard";
 
 function Payment() {
   const { state } = useLocation();
@@ -36,7 +36,7 @@ function Payment() {
 
   const checkOut = useSelector((state) => state.checkOut);
   const handleAdress = (event) => {
-    setAdress(event.target.value);
+    setData(event.target.value);
   };
 
   console.log(adress);
@@ -93,7 +93,7 @@ function Payment() {
             </div>
             <div className="cart__productCard--shopCard">
               {
-                <ShopCard
+                <PaymentCard
                   checkoutData={state[1]}
                   productData={productData}
                   setTotalPrice={setTotalPrice}

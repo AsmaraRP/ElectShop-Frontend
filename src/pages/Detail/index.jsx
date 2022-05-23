@@ -22,12 +22,13 @@ function Detail() {
   const [item, setItem] = useState(1);
   const [rating, setRating] = useState("");
   const [isReview, setIsReview] = useState(false);
-  const [idCheckout, setIdCheckout] = useState("");
+  const [idCheckout, setIdCheckout] = useState(214);
   const [dataId, setDataId] = useState([]);
   const [dataIdCheckout, setDataIdCheckout] = useState([]);
   const [image, setImage] = useState("");
   const productId = params.id;
   const [totalPrice, setTotalPrice] = useState(0);
+  const [openPageFromHistory, setOpenPageFromHistory] = useState(true);
 
   const [data, setData] = useState({
     productId: params.id,
@@ -60,6 +61,20 @@ function Detail() {
       console.log(data);
       navigate("/payment", {
         state: [product, data, result.action.payload.data.data.id, totalPrice],
+      });
+      getDataCheckout();
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  const handleSubmitCart = async (e) => {
+    try {
+      e.preventDefault();
+      const result = await dispatch(postDataCheckout(data));
+
+      navigate("/cart", {
+        state: [product, data, result.action.payload.data.data.id],
       });
       getDataCheckout();
     } catch (error) {
@@ -159,7 +174,10 @@ function Detail() {
   const handleCart = () => {
     navigate("/cart");
   };
-
+  if (state.review && openPageFromHistory) {
+    setOpenPageFromHistory(false);
+    setIsReview(true);
+  }
   return (
     <div>
       <Navbar />
@@ -271,11 +289,13 @@ function Detail() {
                 >
                   Checkout
                 </button>
-                <button className="detail__Preview--checkout--cart">
+                <button
+                  className="detail__Preview--checkout--cart"
+                  onClick={handleSubmitCart}
+                >
                   <img
                     src={require("../../assets/images/Cart.png")}
                     alt="cart"
-                    onClick={handleCart}
                   />
                 </button>
               </div>
@@ -473,12 +493,11 @@ function Detail() {
             >
               Checkout
             </button>
-            <button className="detail__Preview--checkout--cart">
-              <img
-                src={require("../../assets/images/Cart.png")}
-                alt="cart"
-                onClick={handleCart}
-              />
+            <button
+              className="detail__Preview--checkout--cart"
+              onClick={handleSubmitCart}
+            >
+              <img src={require("../../assets/images/Cart.png")} alt="cart" />
             </button>
           </div>
         </div>
