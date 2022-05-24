@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Pagination from "react-paginate";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import ShopCard from "../../components/card";
-import {getCheckoutById, createTransaction} from "../../stores/actions/cart"
+import { getCheckoutById, createTransaction } from "../../stores/actions/cart";
 
 function Cart() {
   document.title = "Cart Page|| electshop";
@@ -52,11 +52,11 @@ function Cart() {
       setSelectedCard([...selectedCard, card]);
     }
   };
-  console.log(selectedCard)
+  console.log(selectedCard);
 
   const limit = 5;
-  const cart = useSelector((state) => state.cart)
-  console.log(cart.data)
+  const cart = useSelector((state) => state.cart);
+  console.log(cart.data);
 
   const handlePagination = (data) => {
     setPage(data.selected + 1);
@@ -69,8 +69,10 @@ function Cart() {
   const getcheckoutById = async () => {
     try {
       // PanggilAction
-      const resultcheckout = await dispatch(getCheckoutById(page, limit, userId))
-      console.log(resultcheckout)
+      const resultcheckout = await dispatch(
+        getCheckoutById(page, limit, userId)
+      );
+      console.log(resultcheckout);
     } catch (error) {
       console.log(error.response);
     }

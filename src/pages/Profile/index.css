@@ -1,0 +1,247 @@
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+.profile__mainPage {
+  height: 100%;
+  background-color: #f2f4fb;
+}
+.profile__backHome {
+  z-index: 1;
+  position: relative;
+  border: none;
+  top: 70px;
+  left: 20px;
+}
+.profile__photoSetting {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+}
+.profile__uploadIcon {
+  background-image: url("../../assets/images/profile__upload.png");
+  width: 200px;
+  height: 200px;
+  z-index: 1;
+  position: relative;
+  top: -50px;
+  left: 80%;
+}
+.profile__uploadIconInput {
+  color: transparent;
+  visibility: hidden;
+  text-decoration: none;
+}
+.profile__photoProfile {
+  height: 600px;
+  width: 1250px;
+}
+.profile__des {
+  height: 300px;
+  background-color: #ffffff;
+  padding-top: 30px;
+}
+.profile__info {
+  margin-left: 100px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 60px;
+  color: #333333;
+}
+.profile__infoDetail {
+  margin-left: 120px;
+  margin-top: 20px;
+  width: 50%;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #777777;
+}
+.profile__boundary {
+  margin-top: 50px;
+  margin-left: 100px;
+  width: 50%;
+}
+.profile__form {
+  height: 700px;
+  background-color: #ffffff;
+}
+.profile__cardForm {
+  margin-left: 150px;
+  margin-top: 30px;
+}
+.profile__labelForm {
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  color: #333333;
+}
+.profile__formatForm {
+  padding: 20px;
+  background-color: #ffffff;
+  height: 80px;
+  width: 450px;
+  border-radius: 20px;
+  align-items: center;
+}
+.profile__inputForm {
+  width: 100%;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #777777;
+  border: none;
+}
+.profile__icon {
+  align-items: center;
+}
+.profile__genderForm {
+  background-color: #ffffff;
+  height: 80px;
+  width: 400px;
+  border-radius: 20px;
+  align-items: center;
+}
+.profile__iconGender {
+  background-color: #ffffff;
+  border-radius: 20px;
+  height: 100%;
+  padding: 25px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #777777;
+  align-items: center;
+}
+.profile__iconGenderActive {
+  background-color: #415fe7;
+  border-radius: 20px;
+  height: 100%;
+  padding: 25px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+  align-items: center;
+}
+.profile__genderButton {
+  border: none;
+  background: none;
+  color: #777777;
+}
+.profile__genderButtonActive {
+  border: none;
+  background: none;
+  color: #ffffff;
+}
+.profile__codePhone {
+  border: none;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  color: #333333;
+}
+.profile__changePassword {
+  border: none;
+  background: none;
+  color: #415fe7;
+}
+.profile__submitButton {
+  margin-top: 40px;
+  margin-left: 135px;
+  width: 206px;
+  height: 69px;
+  background: #0020b2;
+  border-color: #0020b2;
+  box-shadow: 5px 4px 50px rgba(3, 0, 173, 0.2);
+  border-radius: 20px;
+  font-family: "Nunito";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 140%;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+@media screen and (max-width: 1400px) {
+  .profile__mainPage {
+    height: 2300px;
+  }
+  .profile__photoProfile {
+    height: 600px;
+    width: 100%;
+  }
+  .profile__form {
+    height: 1100px;
+  }
+  .profile__uploadIcon {
+    left: 70%;
+    background-size: 150px;
+    height: 150px;
+    width: 150px;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .profile__boundary {
+    display: none;
+  }
+  .profile__photoProfile {
+    height: 600px;
+    width: 100%;
+  }
+  .profile__uploadIcon {
+    left: 70%;
+    background-size: 150px;
+    height: 150px;
+    width: 150px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .profile__info {
+    margin-left: 10px;
+    font-size: 30px;
+  }
+  .profile__photoProfile {
+    height: 600px;
+    width: 100%;
+  }
+  .profile__infoDetail {
+    margin-left: 50px;
+    width: 80%;
+    font-size: 15px;
+  }
+  .profile__uploadIcon {
+    background-size: 100px;
+    height: 100px;
+    width: 100px;
+    left: 60%;
+  }
+  .profile__cardForm {
+    margin-left: 20px;
+    margin-top: 30px;
+  }
+  .profile__labelForm {
+    font-size: 18px;
+  }
+  .profile__formatForm {
+    height: 80px;
+    width: 350px;
+  }
+  .profile__inputForm {
+    font-size: 14px;
+  }
+  .profile__genderForm {
+    width: 300px;
+  }
+  .profile__submitButton {
+    margin-left: 15px;
+  }
+}

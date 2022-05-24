@@ -7,7 +7,8 @@ import { updateCheckout, deleteCheckout } from "../../stores/actions/cart";
 function PaymentCard(props) {
   const { id, image, name, price, stock, type } = props.productData;
   const { productTotal } = props.checkoutData;
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [count, setCount] = useState(productTotal);
   const increaseCounters = () => {
     console.log("Increase Counter");
@@ -19,7 +20,23 @@ function PaymentCard(props) {
     setCount(count - 1);
     props.setTotalPrice(price * (count - 1));
   };
+  const handleNaviegateDetail = () => {
+    navigate(`/detail/${id}`);
+  };
 
+  const handleDelete = () => {
+    deletecheckout();
+  };
+
+  const deletecheckout = async () => {
+    try {
+      // PanggilAction
+      const deletecheckout = await dispatch(deleteCheckout(id));
+      console.log(deletecheckout);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
   return (
     <div className="shopCard">
       <div className="shopCard__checkBox">
