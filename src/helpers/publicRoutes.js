@@ -6,7 +6,7 @@ export default function PublicRoute(props) {
   const location = useLocation();
   const token = localStorage.getItem("token");
   if (token && props.restricted) {
-    return <Navigate to="/home" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
   return <Outlet />;
 }
