@@ -24,7 +24,9 @@ function Confirm() {
         <h5 className="transactionStatus__statement">
           Transaction was successful, do you want to shop again?
         </h5>
-        <button className="transactionStatus__button">Shop Again</button>
+        <Link to="/" className="transactionStatus__button">
+          Shop Again
+        </Link>
       </div>
       <h1>Recomendation For You</h1>
     </div>
